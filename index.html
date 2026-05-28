@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StreamRotator — ClearPath Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07070f;--surface:#10101c;--surface2:#181828;--surface3:#1f1f35;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --text:#eeeef5;--muted:#6e6e9a;--subtle:#3a3a5c;
+  --accent:#7c6fff;--accent2:#ff6b9d;--green:#2aff9e;--gold:#ffd166;
+  --font-h:'Syne',sans-serif;--font-b:'DM Sans',sans-serif;
+  --r:14px;--r-sm:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:15px;line-height:1.6;min-height:100vh;}
+a{color:inherit;text-decoration:none;}
+button{cursor:pointer;font-family:var(--font-b);}
+input,select,textarea{font-family:var(--font-b);}
+
+/* ===== TOP NAV ===== */
+nav{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  padding:1rem 2rem;border-bottom:1px solid var(--border);
+  background:rgba(7,7,15,0.95);backdrop-filter:blur(12px);
+  position:sticky;top:0;z-index:100;
+}
+.nav-logo{font-family:var(--font-h);font-size:1.25rem;font-weight:800;letter-spacing:-.03em;}
+.nav-logo span{color:var(--accent);}
+.nav-budget{
+  display:flex;align-items:center;gap:10px;
+  background:var(--surface);border:1px solid var(--border);border-radius:999px;
+  padding:6px 16px;font-size:13px;color:var(--muted);
+}
+.nav-budget strong{color:var(--text);font-weight:500;}
+.nav-budget input{
+  width:55px;background:none;border:none;outline:none;
+  color:var(--accent);font-family:var(--font-h);font-size:1rem;font-weight:700;text-align:center;
+}
+.nav-budget input::-webkit-inner-spin-button{-webkit-appearance:none;}
+.budget-badge{
+  font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;transition:all .3s;
+}
+.budget-badge.ok{background:rgba(42,255,158,0.12);color:var(--green);}
+.budget-badge.over{background:rgba(255,107,107,0.12);color:#ff8080;}
+
+/* ===== HERO ===== */
+.hero{
+  padding:3rem 2rem 2rem;
+  background:radial-gradient(ellipse 80% 60% at 50% -20%, rgba(124,111,255,0.12) 0%, transparent 70%);
+  text-align:center;border-bottom:1px solid var(--border);
+}
+.hero h1{font-family:var(--font-h);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-.04em;margin-bottom:.5rem;}
+.hero h1 em{font-style:normal;color:var(--accent);}
+.hero p{font-size:1rem;color:var(--muted);max-width:560px;margin:0 auto 1.75rem;}
+.steps{display:flex;align-items:flex-start;justify-content:center;gap:0;flex-wrap:wrap;margin-bottom:.5rem;}
+.step{display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 1.25rem;position:relative;max-width:180px;}
+.step:not(:last-child)::after{
+  content:"→";position:absolute;right:-8px;top:18px;
+  color:var(--subtle);font-size:1.1rem;
+}
+.step-num{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--surface2);border:1.5px solid var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-h);font-size:13px;font-weight:700;color:var(--accent);
+}
+.step-txt{font-size:12px;color:var(--muted);text-align:center;line-height:1.4;}
+
+/* ===== LAYOUT ===== */
+.layout{display:grid;grid-template-columns:1fr 380px;min-height:calc(100vh - 140px);}
+
+/* ===== LEFT ===== */
+.left{padding:2rem;border-right:1px solid var(--border);overflow-y:auto;}
+.section-hd{
+  font-family:var(--font-h);font-size:11px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  margin-bottom:1rem;display:flex;align-items:center;gap:8px;
+}
+.section-hd::after{content:"";flex:1;height:1px;background:var(--border);}
+
+/* ===== STATS ===== */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:2rem;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.875rem 1rem;}
+.stat-lbl{font-size:11px;color:var(--muted);margin-bottom:4px;}
+.stat-val{font-family:var(--font-h);font-size:1.5rem;font-weight:700;}
+.stat-val.a{color:var(--accent);}.stat-val.g{color:var(--green);}.stat-val.w{color:var(--text);}
+
+/* ===== SERVICE CARDS ===== */
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-bottom:2rem;}
+.svc-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+  padding:.875rem;transition:border-color .2s,transform .15s;position:relative;overflow:hidden;
+}
+.svc-card:hover{border-color:var(--border2);transform:translateY(-1px);}
+.svc-card.active{border-color:var(--accent);background:var(--surface2);}
+.svc-card .check{
+  position:absolute;top:10px;right:10px;width:20px;height:20px;border-radius:50%;
+  border:2px solid var(--border);display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:transparent;transition:all .2s;
+}
+.svc-card.active .check{border-color:var(--accent);background:var(--accent);color:#fff;}
+.svc-logo{width:32px;height:32px;border-radius:8px;background:var(--surface3);margin-bottom:.625rem;display:flex;align-items:center;justify-content:center;font-size:14px;}
+.svc-name{font-family:var(--font-h);font-size:13px;font-weight:700;margin-bottom:2px;}
+.svc-cat{font-size:11px;color:var(--muted);margin-bottom:.5rem;}
+.svc-price{font-size:12px;color:var(--text);font-weight:500;}
+.svc-price input{
+  width:45px;background:var(--surface3);border:1px solid var(--border);border-radius:6px;
+  padding:3px 6px;color:var(--text);font-size:12px;margin-left:4px;
+}
+
+/* ===== RIGHT ===== */
+.right{background:var(--surface);padding:2rem;display:flex;flex-direction:column;}
+.cal-header{
+  font-family:var(--font-h);font-size:13px;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;color:var(--muted);
+  margin-bottom:1rem;display:flex;align-items:center;gap:8px;
+}
+.cal-header span{color:var(--accent);}
+
+.schedule-container{
+  flex:1;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);
+  padding:1rem;overflow-y:auto;max-height:calc(100vh - 280px);
+}
+
+.month-block{margin-bottom:1.5rem;}
+.month-label{
+  font-family:var(--font-h);font-size:12px;font-weight:700;
+  color:var(--accent);margin-bottom:.625rem;padding-bottom:.375rem;
+  border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;
+}
+.month-label .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
+
+.month-services{display:flex;flex-direction:column;gap:8px;}
+.svc-row{
+  display:flex;align-items:center;gap:12px;
+  background:var(--surface2);border-radius:var(--r-sm);padding:.625rem .875rem;
+}
+.svc-row .logo{width:24px;height:24px;border-radius:6px;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-size:11px;}
+.svc-row .name{flex:1;font-size:13px;font-weight:500;}
+.svc-row .price{font-family:var(--font-h);font-size:13px;color:var(--accent);}
+
+.empty-state{text-align:center;padding:3rem 1rem;color:var(--muted);font-size:13px;}
+.empty-state .icon{font-size:2rem;margin-bottom:.75rem;opacity:.5;}
+
+/* ===== ACTIONS ===== */
+.actions{display:flex;gap:10px;margin-top:1.5rem;}
+.btn{
+  flex:1;padding:.75rem 1rem;border-radius:var(--r-sm);font-size:13px;font-weight:600;
+  border:none;transition:all .2s;
+}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-primary:hover{background:#6b5ce0;}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border);}
+.btn-secondary:hover{background:var(--surface3);}
+
+/* ===== FOOTER ===== */
+footer{
+  padding:1.5rem 2rem;border-top:1px solid var(--border);
+  text-align:center;font-size:12px;color:var(--muted);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr;}
+  .right{border-left:none;border-top:1px solid var(--border);}
+  .svc-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}
+}
+@media (max-width:600px){
+  .hero{padding:2rem 1rem;}
+  .left, .right{padding:1.5rem;}
+  .nav-budget{order:3;width:100%;justify-content:center;margin-top:8px;}
+  .steps{flex-direction:column;gap:1rem;}
+  .step:not(:last-child)::after{content:none;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Clear<span>Path</span> Management</div>
+  <div class="nav-budget">
+    Monthly Budget: $<input type="number" id="budgetInput" value="50" min="0" max="200">
+    <span class="budget-badge ok" id="budgetBadge">On Track</span>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1>Stream<em>Rotator</em></h1>
+  <p>Optimize your streaming subscriptions. Rotate services monthly to catch everything while staying on budget.</p>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-txt">Select services you want</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-txt">Set your monthly budget</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-txt">Get your rotation schedule</div></div>
+  </div>
+</section>
+
+<div class="layout">
+  <div class="left">
+    <div class="section-hd">Streaming Services</div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-lbl">Active Services</div><div class="stat-val a" id="activeCount">0</div></div>
+      <div class="stat-card"><div class="stat-lbl">Monthly Cost</div><div class="stat-val g" id="monthlyCost">$0</div></div>
+      <div class="stat-card"><div class="stat-lbl">Annual Savings</div><div class="stat-val w" id="annualSavings">$0</div></div>
+    </div>
+    <div class="section-hd">Available Services</div>
+    <div class="svc-grid" id="serviceGrid"></div>
+    <div class="actions">
+      <button class="btn btn-primary" onclick="generateSchedule()">Generate Schedule</button>
+      <button class="btn btn-secondary" onclick="clearAll()">Clear All</button>
+    </div>
+  </div>
+  <div class="right">
+    <div class="cal-header">📅 Rotation Schedule</div>
+    <div class="schedule-container" id="scheduleContainer">
+      <div class="empty-state">
+        <div class="icon">📋</div>
+        <div>Select services and click "Generate Schedule" to see your rotation plan.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2026 ClearPath Management. Stream smarter, not harder.
+</footer>
+
+<script>
+const services = [
+  { id: 'netflix', name: 'Netflix', category: 'Movies & TV', basePrice: 15.49, color: '#e50914' },
+  { id: 'max', name: 'Max', category: 'Movies & TV', basePrice: 15.99, color: '#002be7' },
+  { id: 'disney', name: 'Disney+', category: 'Family', basePrice: 13.99, color: '#113ccf' },
+  { id: 'hulu', name: 'Hulu', category: 'TV Shows', basePrice: 14.99, color: '#1ce783' },
+  { id: 'prime', name: 'Prime Video', category: 'Movies & TV', basePrice: 14.99, color: '#00a8e1' },
+  { id: 'apple', name: 'Apple TV+', category: 'Originals', basePrice: 9.99, color: '#000000' },
+  { id: 'peacock', name: 'Peacock', category: 'TV & Sports', basePrice: 11.99, color: '#f7d034' },
+  { id: 'paramount', name: 'Paramount+', category: 'Movies & TV', basePrice: 11.99, color: '#0064ff' },
+  { id: 'youtube', name: 'YouTube TV', category: 'Live TV', basePrice: 72.99, color: '#ff0000' },
+  { id: 'espn', name: 'ESPN+', category: 'Sports', basePrice: 10.99, color: '#ff3c00' },
+  { id: 'spotify', name: 'Spotify', category: 'Music', basePrice: 10.99, color: '#1db954' },
+  { id: 'apple-music', name: 'Apple Music', category: 'Music', basePrice: 10.99, color: '#fa243c' }
+];
+
+let selectedServices = new Set();
+let servicePrices = {};
+
+function init() {
+  const grid = document.getElementById('serviceGrid');
+  services.forEach(svc => {
+    servicePrices[svc.id] = svc.basePrice;
+    const card = document.createElement('div');
+    card.className = 'svc-card';
+    card.id = `card-${svc.id}`;
+    card.innerHTML = `
+      <div class="check">✓</div>
+      <div class="svc-logo" style="background:${svc.color}20;color:${svc.color}">${svc.name[0]}</div>
+      <div class="svc-name">${svc.name}</div>
+      <div class="svc-cat">${svc.category}</div>
+      <div class="svc-price">$<input type="number" value="${svc.basePrice}" step="0.01" onchange="updatePrice('${svc.id}', this.value)"></div>
+    `;
+    card.addEventListener('click', (e) => {
+      if (e.target.tagName !== 'INPUT') toggleService(svc.id);
+    });
+    grid.appendChild(card);
+  });
+  
+  document.getElementById('budgetInput').addEventListener('change', updateBudget);
+}
+
+function toggleService(id) {
+  const card = document.getElementById(`card-${id}`);
+  if (selectedServices.has(id)) {
+    selectedServices.delete(id);
+    card.classList.remove('active');
+  } else {
+    selectedServices.add(id);
+    card.classList.add('active');
+  }
+  updateStats();
+}
+
+function updatePrice(id, value) {
+  servicePrices[id] = parseFloat(value) || 0;
+  updateStats();
+}
+
+function updateBudget() {
+  const badge = document.getElementById('budgetBadge');
+  const total = selectedServices.size > 0 ? 
+    selectedServices.reduce((sum, id) => sum + servicePrices[id], 0) : 0;
+  const budget = parseFloat(document.getElementById('budgetInput').value) || 0;
+  
+  if (total <= budget) {
+    badge.className = 'budget-badge ok';
+    badge.textContent = 'On Track';
+  } else {
+    badge.className = 'budget-badge over';
+    badge.textContent = 'Over Budget';
+  }
+}
+
+function updateStats() {
+  const count = selectedServices.size;
+  const total = count > 0 ? 
+    selectedServices.reduce((sum, id) => sum + servicePrices[id], 0) : 0;
+  const fullTotal = count > 0 ? 
+    selectedServices.reduce((sum, id) => sum + services.find(s => s.id === id).basePrice, 0) : 0;
+  const savings = (fullTotal - total) * 12;
+  
+  document.getElementById('activeCount').textContent = count;
+  document.getElementById('monthlyCost').textContent = `$${total.toFixed(2)}`;
+  document.getElementById('annualSavings').textContent = `$${savings.toFixed(0)}`;
+  
+  updateBudget();
+}
+
+function generateSchedule() {
+  if (selectedServices.size === 0) {
+    alert('Select at least one service first!');
+    return;
+  }
+  
+  const container = document.getElementById('scheduleContainer');
+  const budget = parseFloat(document.getElementById('budgetInput').value) || 50;
+  const svcList = Array.from(selectedServices).map(id => ({
+    ...services.find(s => s.id === id),
+    price: servicePrices[id]
+  })).sort((a, b) => b.price - a.price);
+  
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const schedule = [];
+  let currentMonth = 0;
+  
+  svcList.forEach(svc => {
+    if (svc.price <= budget) {
+      schedule.push({
+        month: months[currentMonth % 12],
+        monthIndex: currentMonth % 12,
+        service: svc
+      });
+      currentMonth++;
+    }
+  });
+  
+  const grouped = {};
+  schedule.forEach(item => {
+    if (!grouped[item.month]) grouped[item.month] = [];
+    grouped[item.month].push(item.service);
+  });
+  
+  let html = '';
+  months.forEach((month, idx) => {
+    if (grouped[month]) {
+      html += `
+        <div class="month-block">
+          <div class="month-label"><div class="dot"></div>${month}</div>
+          <div class="month-services">
+            ${grouped[month].map(svc => `
+              <div class="svc-row">
+                <div class="logo" style="background:${svc.color}20;color:${svc.color}">${svc.name[0]}</div>
+                <div class="name">${svc.name}</div>
+                <div class="price">$${svc.price.toFixed(2)}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+  });
+  
+  container.innerHTML = html || '<div class="empty-state"><div class="icon">💰</div><div>No services fit within your budget. Try increasing it!</div></div>';
+}
+
+function clearAll() {
+  selectedServices.clear();
+  document.querySelectorAll('.svc-card').forEach(card => card.classList.remove('active'));
+  updateStats();
+  document.getElementById('scheduleContainer').innerHTML = `
+    <div class="empty-state">
+      <div class="icon">📋</div>
+      <div>Select services and click "Generate Schedule" to see your rotation plan.</div>
+    </div>
+  `;
+}
+
+init();
+</script>
+
+</body>
+</html>
