@@ -32,18 +32,73 @@ nav{
 .logo span{color:var(--accent);}
 .budget-pill{
   display:flex;align-items:center;gap:9px;
-  background:var(--surface);border:1px solid var(--border);border-radius:999px;
-  padding:6px 16px;font-size:13px;color:var(--muted);
+  background:linear-gradient(135deg,rgba(124,111,255,0.15) 0%,rgba(124,111,255,0.08) 100%);
+  border:1.5px solid rgba(124,111,255,0.4);
+  border-radius:999px;
+  padding:8px 18px;
+  font-size:13px;color:var(--muted);
+  box-shadow:0 0 20px rgba(124,111,255,0.15), 0 0 40px rgba(124,111,255,0.05);
+  animation:budgetGlow 3s ease-in-out infinite;
+  position:relative;
+  overflow:hidden;
 }
-.budget-pill strong{color:var(--text);font-weight:500;}
+.budget-pill::before{
+  content:"✨";
+  position:absolute;
+  right:6px;top:50%;
+  transform:translateY(-50%);
+  font-size:14px;
+  animation:sparkle 2s ease-in-out infinite;
+  opacity:0.7;
+}
+@keyframes budgetGlow{
+  0%,100%{box-shadow:0 0 20px rgba(124,111,255,0.15), 0 0 40px rgba(124,111,255,0.05);border-color:rgba(124,111,255,0.4);}
+  50%{box-shadow:0 0 25px rgba(124,111,255,0.25), 0 0 50px rgba(124,111,255,0.1);border-color:rgba(124,111,255,0.6);}
+}
+@keyframes sparkle{
+  0%,100%{opacity:0.3;transform:translateY(-50%) scale(0.9);}
+  50%{opacity:1;transform:translateY(-50%) scale(1.1);}
+}
+.budget-pill strong{
+  color:var(--text);
+  font-weight:700;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:0.03em;
+}
 .budget-pill input{
-  width:52px;background:none;border:none;outline:none;
-  color:var(--accent);font-family:var(--fh);font-size:1rem;font-weight:700;text-align:center;
+  width:60px;background:none;border:none;outline:none;
+  color:var(--accent);
+  font-family:var(--fh);
+  font-size:1.15rem;
+  font-weight:800;
+  text-align:center;
 }
 .budget-pill input::-webkit-inner-spin-button{-webkit-appearance:none;}
-.badge{font-size:11px;font-weight:600;padding:3px 11px;border-radius:999px;transition:all .3s;}
-.badge.ok{background:rgba(42,255,158,0.12);color:var(--green);}
-.badge.over{background:rgba(255,100,100,0.12);color:#ff8080;}
+.badge{
+  font-size:12px;
+  font-weight:700;
+  padding:5px 14px;
+  border-radius:999px;
+  transition:all .3s;
+  text-transform:uppercase;
+  letter-spacing:0.03em;
+}
+.badge.ok{
+  background:rgba(42,255,158,0.18);
+  color:var(--green);
+  box-shadow:0 0 10px rgba(42,255,158,0.1);
+}
+.badge.over{
+  background:rgba(255,100,100,0.18);
+  color:#ff8080;
+  box-shadow:0 0 10px rgba(255,100,100,0.1);
+  animation:pulseRed 2s ease-in-out infinite;
+}
+@keyframes pulseRed{
+  0%,100%{box-shadow:0 0 10px rgba(255,100,100,0.1);}
+  50%{box-shadow:0 0 20px rgba(255,100,100,0.3);}
+}
 
 /* ONBOARDING BANNER */
 .onboard{
@@ -277,7 +332,7 @@ footer a{color:var(--accent);}
   <div class="logo">stream<span>rotator</span></div>
   <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
     <div class="budget-pill">
-      <strong>Monthly Budget</strong>
+      <strong>💰 Monthly Budget</strong>
       <span style="color:var(--muted);">$</span>
       <input type="number" id="budget-input" value="30" min="5" max="500">
       <span style="color:var(--muted);">/mo</span>
