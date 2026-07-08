@@ -3,926 +3,372 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StreamRotator — ClearPath Management</title>
+<title>ClearPath Management — A clear path to a simpler life</title>
+<meta name="description" content="Audit what you spend, cut what you don't use, and redirect it toward what matters. Free tools for your money, wellness, and time.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#07070f;--surface:#10101c;--surface2:#181828;--surface3:#1f1f35;
-  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.14);
-  --text:#eeeef5;--muted:#6e6e9a;--subtle:#2a2a45;
-  --accent:#7c6fff;--accent2:#ff6b9d;--green:#2aff9e;--gold:#ffd166;
-  --fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
-  --r:14px;--rs:8px;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:15px;line-height:1.6;min-height:100vh;}
-button,input,select{font-family:var(--fb);}
+  :root{
+    --ink:#1C2B27;
+    --mist:#F4F7F5;
+    --trail:#2F7D5E;
+    --trail-deep:#215C45;
+    --waymark:#E8B94A;
+    --wellness:#DCEDE4;
+    --line:#D5DED9;
+    --white:#FFFFFF;
+    --radius:14px;
+    --max:1080px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Public Sans',system-ui,sans-serif;
+    background:var(--mist);
+    color:var(--ink);
+    line-height:1.6;
+    font-size:16px;
+  }
+  h1,h2,h3,.display{font-family:'Bricolage Grotesque',sans-serif;line-height:1.1}
+  a{color:var(--trail-deep)}
+  img{max-width:100%}
 
-/* NAV */
-nav{
-  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
-  padding:.875rem 2rem;border-bottom:1px solid var(--border);
-  background:rgba(7,7,15,0.96);backdrop-filter:blur(14px);
-  position:sticky;top:0;z-index:100;
-}
-.logo{font-family:var(--fh);font-size:1.3rem;font-weight:800;letter-spacing:-.03em;color:var(--text);}
-.logo span{color:var(--accent);}
-.budget-pill{
-  display:flex;align-items:center;gap:9px;
-  background:linear-gradient(135deg,rgba(124,111,255,0.15) 0%,rgba(124,111,255,0.08) 100%);
-  border:1.5px solid rgba(124,111,255,0.4);
-  border-radius:999px;
-  padding:8px 18px;
-  font-size:13px;color:var(--muted);
-  box-shadow:0 0 20px rgba(124,111,255,0.15), 0 0 40px rgba(124,111,255,0.05);
-  animation:budgetGlow 3s ease-in-out infinite;
-  position:relative;
-  overflow:hidden;
-}
-.budget-pill::before{
-  content:"✨";
-  position:absolute;
-  right:6px;top:50%;
-  transform:translateY(-50%);
-  font-size:14px;
-  animation:sparkle 2s ease-in-out infinite;
-  opacity:0.7;
-}
-@keyframes budgetGlow{
-  0%,100%{box-shadow:0 0 20px rgba(124,111,255,0.15), 0 0 40px rgba(124,111,255,0.05);border-color:rgba(124,111,255,0.4);}
-  50%{box-shadow:0 0 25px rgba(124,111,255,0.25), 0 0 50px rgba(124,111,255,0.1);border-color:rgba(124,111,255,0.6);}
-}
-@keyframes sparkle{
-  0%,100%{opacity:0.3;transform:translateY(-50%) scale(0.9);}
-  50%{opacity:1;transform:translateY(-50%) scale(1.1);}
-}
-.budget-pill strong{
-  color:var(--text);
-  font-weight:700;
-  font-size:13px;
-  text-transform:uppercase;
-  letter-spacing:0.03em;
-}
-.budget-pill input{
-  width:60px;background:none;border:none;outline:none;
-  color:var(--accent);
-  font-family:var(--fh);
-  font-size:1.15rem;
-  font-weight:800;
-  text-align:center;
-}
-.budget-pill input::-webkit-inner-spin-button{-webkit-appearance:none;}
-.badge{
-  font-size:12px;
-  font-weight:700;
-  padding:5px 14px;
-  border-radius:999px;
-  transition:all .3s;
-  text-transform:uppercase;
-  letter-spacing:0.03em;
-}
-.badge.ok{
-  background:rgba(42,255,158,0.18);
-  color:var(--green);
-  box-shadow:0 0 10px rgba(42,255,158,0.1);
-}
-.badge.over{
-  background:rgba(255,100,100,0.18);
-  color:#ff8080;
-  box-shadow:0 0 10px rgba(255,100,100,0.1);
-  animation:pulseRed 2s ease-in-out infinite;
-}
-@keyframes pulseRed{
-  0%,100%{box-shadow:0 0 10px rgba(255,100,100,0.1);}
-  50%{box-shadow:0 0 20px rgba(255,100,100,0.3);}
-}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
 
-/* ONBOARDING BANNER */
-.onboard{
-  background:linear-gradient(135deg,rgba(124,111,255,0.08) 0%,rgba(255,107,157,0.05) 100%);
-  border-bottom:1px solid var(--border);
-  padding:1.5rem 2rem;
-}
-.onboard h2{font-family:var(--fh);font-size:1.05rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.25rem;}
-.onboard p{font-size:13px;color:var(--muted);margin-bottom:1.1rem;max-width:700px;}
-.steps-row{display:flex;gap:0;flex-wrap:wrap;}
-.step{
-  display:flex;align-items:flex-start;gap:10px;
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
-  padding:.75rem 1rem;flex:1;min-width:180px;max-width:260px;
-  position:relative;
-}
-.step:not(:last-child)::after{
-  content:"→";position:absolute;right:-13px;top:50%;transform:translateY(-50%);
-  color:var(--subtle);font-size:1rem;z-index:1;
-}
-.step-num{
-  width:28px;height:28px;border-radius:50%;flex-shrink:0;
-  background:rgba(124,111,255,0.15);border:1.5px solid var(--accent);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--fh);font-size:11px;font-weight:700;color:var(--accent);
-}
-.step-body{}
-.step-title{font-size:12px;font-weight:600;color:var(--text);font-family:var(--fh);}
-.step-desc{font-size:11px;color:var(--muted);line-height:1.4;margin-top:2px;}
-@media(max-width:780px){
-  .step:not(:last-child)::after{display:none;}
-  .steps-row{gap:8px;}
-}
+  /* ---------- Nav ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(244,247,245,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;max-width:var(--max);margin:0 auto}
+  .logo{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.15rem;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:8px}
+  .logo svg{flex:none}
+  .nav-links{display:flex;gap:22px;align-items:center}
+  .nav-links a{text-decoration:none;font-weight:500;font-size:.92rem;color:var(--ink)}
+  .nav-links a:hover{color:var(--trail)}
+  .btn{
+    display:inline-block;background:var(--trail);color:#fff;text-decoration:none;
+    padding:11px 22px;border-radius:999px;font-weight:600;font-size:.95rem;
+    border:none;cursor:pointer;transition:background .18s ease, transform .18s ease;
+  }
+  .btn:hover{background:var(--trail-deep);transform:translateY(-1px)}
+  .btn.gold{background:var(--waymark);color:var(--ink)}
+  .btn.gold:hover{background:#d9a72f}
+  .btn.ghost{background:transparent;color:var(--trail-deep);border:1.5px solid var(--trail)}
+  .btn.ghost:hover{background:var(--wellness);transform:none}
+  @media(max-width:720px){.nav-links a:not(.btn){display:none}}
 
-/* LAYOUT */
-.layout{display:grid;grid-template-columns:1fr 360px;min-height:calc(100vh - 56px);}
-.left{padding:1.75rem 2rem;border-right:1px solid var(--border);}
-.right{background:var(--surface);display:flex;flex-direction:column;}
+  /* ---------- Hero ---------- */
+  header.hero{position:relative;padding:88px 24px 40px;overflow:hidden}
+  .hero-inner{max-width:var(--max);margin:0 auto;position:relative}
+  .eyebrow{
+    display:inline-block;font-size:.78rem;font-weight:600;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--trail-deep);
+    background:var(--wellness);padding:6px 14px;border-radius:999px;margin-bottom:20px;
+  }
+  h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;max-width:14ch;margin-bottom:20px}
+  h1 .mark{position:relative;white-space:nowrap}
+  h1 .mark::after{
+    content:"";position:absolute;left:0;right:0;bottom:.08em;height:.28em;
+    background:var(--waymark);z-index:-1;border-radius:3px;opacity:.75;
+  }
+  .hero p.lede{font-size:1.15rem;max-width:52ch;color:#3d4f49;margin-bottom:30px}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
 
-/* SECTION HEADERS */
-.sh{
-  font-family:var(--fh);font-size:10px;font-weight:700;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--muted);
-  margin-bottom:.875rem;display:flex;align-items:center;gap:8px;
-}
-.sh::after{content:"";flex:1;height:1px;background:var(--border);}
+  /* ---------- The Path (signature SVG spine) ---------- */
+  .path-spine{
+    position:absolute;left:50%;transform:translateX(-50%);
+    top:0;height:100%;width:120px;pointer-events:none;z-index:0;
+  }
+  .path-spine path{
+    stroke:var(--trail);stroke-width:2.5;fill:none;stroke-dasharray:7 9;
+    opacity:.5;
+  }
+  @media(prefers-reduced-motion:no-preference){
+    .path-spine path{animation:trail 60s linear infinite}
+    @keyframes trail{to{stroke-dashoffset:-1600}}
+  }
+  @media(max-width:860px){.path-spine{display:none}}
 
-/* STATS */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.75rem;}
-.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.875rem 1rem;}
-.stat-l{font-size:11px;color:var(--muted);margin-bottom:4px;}
-.stat-v{font-family:var(--fh);font-size:1.5rem;font-weight:700;}
-.ac{color:var(--accent);}.gc{color:var(--green);}.wc{color:var(--text);}
+  /* ---------- One idea strip ---------- */
+  .idea{background:var(--ink);color:var(--mist);padding:54px 24px;text-align:center}
+  .idea p{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(1.25rem,2.6vw,1.7rem);max-width:34ch;margin:0 auto;font-weight:600}
+  .idea em{color:var(--waymark);font-style:normal}
 
-/* SERVICE CARDS */
-.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:10px;margin-bottom:1.75rem;}
-.svc-card{
-  background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);
-  padding:.875rem;transition:border-color .2s,transform .15s;position:relative;overflow:hidden;
-}
-.svc-card:hover{border-color:var(--border2);transform:translateY(-1px);}
-.svc-card.on{border-color:var(--accent);background:rgba(124,111,255,0.05);}
-.svc-card.off{opacity:.38;}
-.ct{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;}
-.svc-ico{
-  width:38px;height:38px;border-radius:9px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--fh);font-size:11px;font-weight:800;color:#fff;
-}
-.tog{
-  width:32px;height:18px;border-radius:9px;border:none;
-  background:rgba(255,255,255,0.1);position:relative;transition:background .2s;flex-shrink:0;
-}
-.tog.on{background:var(--accent);}
-.tog::after{content:"";position:absolute;width:12px;height:12px;border-radius:50%;background:#fff;top:3px;left:3px;transition:left .2s;}
-.tog.on::after{left:17px;}
-.svc-nm{font-family:var(--fh);font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:1px;}
-.svc-mt{font-size:11px;color:var(--muted);margin-bottom:8px;}
-.svc-mt strong{color:var(--accent);font-weight:500;}
-.alloc{display:flex;align-items:center;gap:6px;}
-.alloc.dim{opacity:.2;pointer-events:none;}
-.alloc input[type=range]{flex:1;height:3px;-webkit-appearance:none;background:rgba(255,255,255,0.08);border-radius:3px;outline:none;}
-.alloc input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer;}
-.alloc-v{font-size:11px;font-weight:600;color:var(--accent);min-width:34px;text-align:right;font-family:var(--fh);}
-.shows-btn{
-  display:inline-flex;align-items:center;gap:4px;
-  background:rgba(124,111,255,0.1);border:none;border-radius:6px;
-  color:var(--accent);font-size:10px;padding:3px 8px;margin-top:6px;
-  transition:background .2s;
-}
-.shows-btn:hover{background:rgba(124,111,255,0.2);}
-.svc-del{position:absolute;top:7px;right:7px;background:none;border:none;color:var(--muted);font-size:15px;line-height:1;padding:2px 4px;}
-.svc-del:hover{color:#ff6b6b;}
+  /* ---------- Pillars ---------- */
+  section.pillars{position:relative;padding:80px 0 40px}
+  .pillar{
+    max-width:var(--max);margin:0 auto 72px;padding:0 24px;
+    display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;
+    position:relative;z-index:1;
+  }
+  .pillar:nth-child(even) .pillar-copy{order:2}
+  @media(max-width:860px){
+    .pillar{grid-template-columns:1fr;gap:26px}
+    .pillar:nth-child(even) .pillar-copy{order:0}
+  }
+  .waymark{
+    width:46px;height:46px;border-radius:50%;
+    background:var(--waymark);color:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.15rem;
+    margin-bottom:16px;box-shadow:0 0 0 6px var(--mist), 0 0 0 8px var(--line);
+  }
+  .pillar h2{font-size:clamp(1.7rem,3.4vw,2.3rem);font-weight:800;margin-bottom:12px}
+  .pillar h2 span{color:var(--trail)}
+  .pillar p{color:#3d4f49;margin-bottom:14px;max-width:48ch}
+  .pillar ul{list-style:none;margin:18px 0 22px}
+  .pillar li{padding-left:26px;position:relative;margin-bottom:9px;font-size:.96rem}
+  .pillar li::before{
+    content:"";position:absolute;left:0;top:.42em;width:13px;height:13px;
+    border-radius:50%;background:var(--wellness);border:2.5px solid var(--trail);
+  }
+  .pill-tag{display:inline-block;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:4px 11px;border-radius:999px;margin-left:10px;vertical-align:middle}
+  .pill-tag.live{background:var(--wellness);color:var(--trail-deep)}
+  .pill-tag.soon{background:#F3E7C8;color:#8a6d1d}
 
-/* ADD CUSTOM */
-.add-card{
-  background:transparent;border:1px dashed rgba(255,255,255,0.1);border-radius:var(--r);
-  padding:.875rem;display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center;min-height:148px;
-}
-.add-card input{
-  width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);
-  border-radius:var(--rs);padding:5px 10px;color:var(--text);font-size:12px;outline:none;text-align:center;
-}
-.add-card input::placeholder{color:var(--muted);}
-.add-card input:focus{border-color:var(--accent);}
-.add-card .ab{
-  width:100%;background:rgba(124,111,255,0.12);border:1px solid rgba(124,111,255,0.3);
-  border-radius:var(--rs);color:var(--accent);font-size:12px;padding:5px 12px;transition:background .2s;
-}
-.add-card .ab:hover{background:rgba(124,111,255,0.22);}
-.add-card-lbl{font-size:11px;color:var(--muted);}
+  .pillar-card{
+    background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+    padding:28px;box-shadow:0 14px 40px -22px rgba(28,43,39,.25);
+  }
+  .pillar-card h3{font-size:1.05rem;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .mini-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:.92rem}
+  .mini-row:last-of-type{border-bottom:none}
+  .mini-row .amount{font-weight:600}
+  .mini-row .save{color:var(--trail-deep);font-weight:600}
+  .mini-total{margin-top:12px;padding:13px 16px;border-radius:10px;background:var(--wellness);display:flex;justify-content:space-between;font-weight:700}
+  .month-chip{display:inline-block;background:var(--mist);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:.8rem;font-weight:600;margin:3px}
+  .month-chip.active{background:var(--trail);color:#fff;border-color:var(--trail)}
 
-/* ACTIONS */
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.75rem;}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:var(--rs);font-size:13px;font-weight:500;border:none;transition:all .2s;cursor:pointer;}
-.btn-p{background:var(--accent);color:#fff;}
-.btn-p:hover{background:#9585ff;}
-.btn-g{background:var(--surface);border:1px solid var(--border);color:var(--text);}
-.btn-g:hover{border-color:var(--border2);}
-.btn-d{background:rgba(255,100,100,0.08);border:1px solid rgba(255,100,100,0.2);color:#ff8080;}
+  /* ---------- Cross-sell (homeowner) ---------- */
+  .crosssell{
+    max-width:var(--max);margin:20px auto 80px;padding:0 24px;
+  }
+  .crosssell-inner{
+    background:linear-gradient(120deg,var(--ink),#2a4038);
+    color:var(--mist);border-radius:var(--radius);
+    padding:38px 34px;display:flex;justify-content:space-between;align-items:center;gap:26px;flex-wrap:wrap;
+  }
+  .crosssell h3{font-size:1.35rem;font-weight:700;margin-bottom:6px}
+  .crosssell p{opacity:.85;max-width:48ch;font-size:.95rem}
 
-/* ALERT */
-.alert{background:rgba(255,100,100,0.07);border:1px solid rgba(255,100,100,0.18);border-radius:var(--rs);padding:8px 12px;font-size:12px;color:#ff9a9a;margin-bottom:1.25rem;display:none;}
+  /* ---------- Plus ---------- */
+  .plus{background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:80px 24px}
+  .plus-inner{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+  @media(max-width:860px){.plus-inner{grid-template-columns:1fr}}
+  .plus h2{font-size:clamp(1.8rem,3.4vw,2.4rem);font-weight:800;margin-bottom:14px}
+  .plus p{color:#3d4f49;max-width:46ch}
+  .price-card{background:var(--mist);border:1.5px solid var(--trail);border-radius:var(--radius);padding:32px}
+  .price{font-family:'Bricolage Grotesque',sans-serif;font-size:2.6rem;font-weight:800}
+  .price small{font-size:1rem;font-weight:500;color:#3d4f49}
+  .price-card ul{list-style:none;margin:18px 0 24px}
+  .price-card li{padding-left:26px;position:relative;margin-bottom:10px;font-size:.95rem}
+  .price-card li::before{content:"✓";position:absolute;left:0;color:var(--trail);font-weight:700}
+  .free-note{font-size:.85rem;color:#5a6b65;margin-top:14px}
 
-/* HOW IT WORKS PANEL */
-.how-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;font-size:13px;color:var(--muted);line-height:1.85;}
-.how-box p+p{margin-top:.5rem;}
-.how-box strong{color:var(--text);}
+  /* ---------- Newsletter ---------- */
+  .newsletter{padding:80px 24px;text-align:center}
+  .newsletter h2{font-size:clamp(1.7rem,3vw,2.2rem);font-weight:800;margin-bottom:10px}
+  .newsletter p{color:#3d4f49;max-width:52ch;margin:0 auto 26px}
+  .nl-form{display:flex;gap:10px;max-width:460px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+  .nl-form input{
+    flex:1;min-width:230px;padding:13px 18px;border-radius:999px;
+    border:1.5px solid var(--line);font:inherit;font-size:.95rem;background:var(--white);
+  }
+  .nl-form input:focus{outline:2px solid var(--trail);outline-offset:2px;border-color:var(--trail)}
+  .nl-note{font-size:.8rem;color:#5a6b65;margin-top:14px}
 
-/* RIGHT — months */
-.right-scroll{flex:1;overflow-y:auto;padding:1.5rem 1.5rem 0;}
-.months-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:1.5rem;}
-.mc{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rs);padding:8px 9px;cursor:pointer;transition:border-color .2s;min-height:80px;}
-.mc:hover{border-color:var(--border2);}
-.mc.sel{border-color:var(--accent);background:rgba(124,111,255,0.04);}
-.mc-nm{font-family:var(--fh);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
-.mc-tags{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:4px;}
-.mc-tag{font-size:9px;font-weight:700;font-family:var(--fh);padding:2px 5px;border-radius:5px;color:#fff;}
-.mc-cost{font-size:9px;color:var(--muted);margin-bottom:1px;}
-.mc-wl{font-size:9px;color:var(--accent);}
+  /* ---------- Footer ---------- */
+  footer{background:var(--ink);color:#b9c9c2;padding:48px 24px 30px;font-size:.88rem}
+  .foot-inner{max-width:var(--max);margin:0 auto;display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
+  footer a{color:#dbe7e1;text-decoration:none}
+  footer a:hover{color:var(--waymark)}
+  .foot-links{display:flex;gap:22px;flex-wrap:wrap}
+  .disclosure{max-width:var(--max);margin:26px auto 0;font-size:.75rem;opacity:.55;line-height:1.5}
 
-/* WATCH LIST */
-.wl-section{padding:0 1.5rem 1rem;}
-.wl-hd{font-family:var(--fh);font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;}
-.wl-sub{font-size:11px;color:var(--muted);}
-.wl-placeholder{font-size:12px;color:var(--muted);padding:.5rem 0;}
-.wl-item{display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid var(--border);}
-.wl-item:last-of-type{border:none;}
-.wl-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.wl-item input[type=text]{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:12px;}
-.wl-item input[type=text]::placeholder{color:var(--muted);}
-.wl-item select{background:var(--surface2);border:none;outline:none;color:var(--muted);font-size:10px;max-width:90px;border-radius:4px;padding:2px 4px;}
-.wl-item select option{background:var(--surface2);}
-.wl-rm{background:none;border:none;color:var(--muted);font-size:14px;padding:1px 3px;transition:color .2s;}
-.wl-rm:hover{color:#ff6b6b;}
-.wl-add{background:none;border:none;color:var(--accent);font-size:12px;padding:5px 0;display:flex;align-items:center;gap:4px;margin-top:4px;}
-
-/* AI STRIP */
-.ai-strip{
-  background:var(--surface2);border-top:1px solid var(--border);
-  padding:1rem 1.5rem;flex-shrink:0;
-}
-.ai-hd{font-size:11px;color:var(--muted);margin-bottom:.5rem;display:flex;align-items:center;gap:6px;}
-.ai-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
-.ai-row{display:flex;gap:8px;}
-.ai-input{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:7px 12px;color:var(--text);font-size:12px;outline:none;}
-.ai-input:focus{border-color:var(--accent);}
-.ai-input::placeholder{color:var(--muted);}
-.ai-btn{background:var(--accent);border:none;border-radius:var(--rs);padding:7px 14px;color:#fff;font-size:12px;font-weight:500;transition:background .2s;cursor:pointer;}
-.ai-btn:hover{background:#9585ff;}
-.ai-resp{font-size:12px;color:var(--muted);margin-top:.5rem;max-height:80px;overflow-y:auto;line-height:1.6;}
-
-/* MODAL */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.78);backdrop-filter:blur(7px);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;}
-.modal-bg.open{display:flex;}
-.modal{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);width:100%;max-width:700px;max-height:88vh;display:flex;flex-direction:column;animation:su .2s ease;}
-@keyframes su{from{transform:translateY(18px);opacity:0;}to{transform:translateY(0);opacity:1;}}
-.modal-hd{padding:1.25rem 1.5rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0;}
-.modal-title{font-family:var(--fh);font-size:1rem;font-weight:700;}
-.modal-hint{font-size:11px;color:var(--muted);margin-top:3px;}
-.modal-x{background:none;border:none;color:var(--muted);font-size:1.5rem;line-height:1;cursor:pointer;padding:0 4px;}
-.modal-x:hover{color:var(--text);}
-.modal-body{overflow-y:auto;padding:1.25rem 1.5rem;}
-.modal-desc{font-size:12px;color:var(--muted);margin-bottom:1rem;line-height:1.6;padding:.75rem;background:var(--surface2);border-radius:var(--rs);}
-.shows-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:8px;}
-.show-btn{
-  background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--rs);
-  padding:10px 10px 8px;text-align:left;transition:border-color .2s,background .2s;
-  display:flex;flex-direction:column;gap:3px;cursor:pointer;
-}
-.show-btn:hover{border-color:var(--border2);}
-.show-btn.picked{border-color:var(--accent);background:rgba(124,111,255,0.09);}
-.show-nm{font-size:12px;font-weight:500;color:var(--text);line-height:1.3;}
-.show-mt{font-size:10px;color:var(--muted);}
-.show-badge{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:4px;margin-top:2px;font-family:var(--fh);}
-.badge-hot{background:rgba(255,100,100,0.14);color:#ff8080;}
-.badge-new{background:rgba(42,255,158,0.11);color:var(--green);}
-.badge-top{background:rgba(255,209,102,0.12);color:var(--gold);}
-.modal-ft{padding:.875rem 1.5rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-.modal-ct{font-size:12px;color:var(--muted);}
-.modal-ct span{color:var(--text);font-weight:500;}
-
-/* FOOTER */
-footer{padding:.875rem 2rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:11px;color:var(--muted);}
-footer a{color:var(--accent);}
-
-/* RESPONSIVE */
-@media(max-width:920px){
-  .layout{grid-template-columns:1fr;}
-  .right{border-top:1px solid var(--border);}
-  .months-grid{grid-template-columns:repeat(4,1fr);}
-  nav,.left,.right-scroll,.wl-section,.ai-strip{padding-left:1.25rem;padding-right:1.25rem;}
-  .onboard{padding:1.25rem;}
-}
-@media(max-width:500px){
-  .svc-grid{grid-template-columns:repeat(2,1fr);}
-  .stats{grid-template-columns:repeat(2,1fr);}
-  .months-grid{grid-template-columns:repeat(3,1fr);}
-  .shows-grid{grid-template-columns:repeat(2,1fr);}
-}
-
-#share-toast.show{transform:translateX(-50%) translateY(0)!important;opacity:1!important;}
+  :focus-visible{outline:2.5px solid var(--waymark);outline-offset:2px}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<div id="share-toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:#1f1f35;border:1px solid rgba(255,255,255,0.14);border-radius:999px;padding:10px 22px;font-size:13px;color:#eeeef5;transition:transform .3s,opacity .3s;opacity:0;z-index:500;pointer-events:none;white-space:nowrap;" id="share-toast"></div>
 <nav>
-  <div class="logo">stream<span>rotator</span></div>
-  <div class="budget-wrap">
-    <div class="budget-callout">Start here</div>
-    <div class="budget-pill">
-      <strong>💰 Monthly Budget</strong>
-      <span style="color:var(--muted);">$</span>
-      <input type="number" id="budget-input" value="30" min="5" max="500">
-      <span style="color:var(--muted);">/mo</span>
+  <div class="nav-inner">
+    <a class="logo" href="#" aria-label="ClearPath Management home">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+        <circle cx="13" cy="13" r="12" stroke="#2F7D5E" stroke-width="2"/>
+        <path d="M6 18 C 10 14, 9 9, 13 8 C 17 7, 17 13, 20 8" stroke="#E8B94A" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+      </svg>
+      ClearPath
+    </a>
+    <div class="nav-links">
+      <a href="#money">Money</a>
+      <a href="#wellness">Wellness</a>
+      <a href="#time">Time</a>
+      <a href="#plus">Plus</a>
+      <a class="btn" href="/streamrotator/">Open StreamRotator</a>
     </div>
-    <div class="badge ok" id="budget-badge">$30.00 left</div>
   </div>
 </nav>
 
-<!-- ONBOARDING -->
-<section class="onboard">
-  <h2>Save money on streaming — rotate smarter 💡</h2>
-  <p>You don't need every service every month. Set your budget, pick your shows, and we'll build your year-round rotation plan.</p>
-  <div class="steps-row">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-body">
-        <div class="step-title">Set your budget</div>
-        <div class="step-desc">Type your max monthly spend in the top bar (e.g. $30)</div>
-      </div>
+<header class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Money · Wellness · Time</span>
+    <h1>A clear path to a <span class="mark">simpler life</span>.</h1>
+    <p class="lede">Most of us leak money, energy, and hours into things we stopped choosing a long time ago. ClearPath gives you simple tools to audit what you spend, cut what you don't use, and put it back where it counts.</p>
+    <div class="hero-ctas">
+      <a class="btn" href="/streamrotator/">Start with your subscriptions</a>
+      <a class="btn ghost" href="#newsletter">Get the weekly Clear Path</a>
     </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-body">
-        <div class="step-title">Toggle services</div>
-        <div class="step-desc">Flip the switch on services you want to rotate through</div>
-      </div>
+  </div>
+</header>
+
+<div class="idea">
+  <p>One habit, three payoffs: <em>audit it, cut it, redirect it</em> — whether it's dollars, screen hours, or skipped workouts.</p>
+</div>
+
+<section class="pillars">
+  <!-- Signature: dotted trail connecting the three waymarks -->
+  <svg class="path-spine" viewBox="0 0 120 1600" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M60 0 C 20 200, 100 320, 60 520 C 20 720, 100 860, 60 1060 C 20 1260, 100 1400, 60 1600"/>
+  </svg>
+
+  <!-- PILLAR 1: MONEY -->
+  <div class="pillar" id="money">
+    <div class="pillar-copy">
+      <div class="waymark">1</div>
+      <h2>ClearPath <span>Money</span> <span class="pill-tag live">Live now</span></h2>
+      <p>Subscriptions are the quietest leak in your budget. StreamRotator builds you a rotation calendar so you keep one streaming service a month instead of five — and still watch everything you want.</p>
+      <ul>
+        <li>StreamRotator — your personal streaming rotation plan</li>
+        <li>Subscription audit — gyms, apps, meal kits, the works</li>
+        <li>Cancel calendar with renewal-date alerts</li>
+      </ul>
+      <a class="btn" href="/streamrotator/">Build my rotation plan</a>
+      <!-- AFFILIATE SLOT: streaming signups / Rocket Money / VPN — Olu: insert tracked links -->
     </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-body">
-        <div class="step-title">Browse popular shows</div>
-        <div class="step-desc">Click "Browse shows" to pick titles — we'll schedule them for you</div>
-      </div>
+    <div class="pillar-card" aria-label="Example savings from rotating subscriptions">
+      <h3>Rotating instead of stacking</h3>
+      <div class="mini-row"><span>Netflix + Max + Disney+ + Hulu + Peacock</span><span class="amount">$74/mo</span></div>
+      <div class="mini-row"><span>One service per month, rotated</span><span class="amount">$16/mo</span></div>
+      <div class="mini-row"><span>Shows missed</span><span class="save">None — they wait for you</span></div>
+      <div class="mini-total"><span>Back in your pocket</span><span>$696/yr</span></div>
     </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-body">
-        <div class="step-title">Export your calendar</div>
-        <div class="step-desc">Download your 12-month plan with subscribe &amp; cancel reminders</div>
+  </div>
+
+  <!-- PILLAR 2: WELLNESS -->
+  <div class="pillar" id="wellness">
+    <div class="pillar-copy">
+      <div class="waymark">2</div>
+      <h2>ClearPath <span>Wellness</span> <span class="pill-tag soon">Coming soon</span></h2>
+      <p>The same rotation logic, applied to your health. Instead of an ambitious plan you abandon in February, you rotate one focused habit per month — and your off-months from streaming become your on-months for you.</p>
+      <ul>
+        <li>Habit rotation planner — one 30-day focus at a time</li>
+        <li>Wellness spend audit — the gym you pay for but don't use</li>
+        <li>Sleep and screen-time budgets that mirror your money budget</li>
+      </ul>
+      <a class="btn ghost" href="#newsletter">Get notified at launch</a>
+      <!-- AFFILIATE SLOT: fitness apps, meal kits, sleep tech — Olu: insert tracked links -->
+    </div>
+    <div class="pillar-card" aria-label="Example habit rotation calendar">
+      <h3>A year of one-thing-at-a-time</h3>
+      <div>
+        <span class="month-chip active">Jul · Walking 8k</span>
+        <span class="month-chip">Aug · Sleep by 10:30</span>
+        <span class="month-chip">Sep · Home cooking</span>
+        <span class="month-chip">Oct · Strength ×3/wk</span>
+        <span class="month-chip">Nov · No-phone mornings</span>
+        <span class="month-chip">Dec · Stretch daily</span>
       </div>
+      <div class="mini-total" style="margin-top:18px"><span>Habits attempted at once</span><span>1, not 6</span></div>
+    </div>
+  </div>
+
+  <!-- PILLAR 3: TIME -->
+  <div class="pillar" id="time">
+    <div class="pillar-copy">
+      <div class="waymark">3</div>
+      <h2>ClearPath <span>Time</span> <span class="pill-tag soon">Coming soon</span></h2>
+      <p>Every month you're not subscribed to a streaming service is a month you get back. ClearPath Time turns your rotation gaps into intentional seasons — a reading month, an outside month, a family-project month.</p>
+      <ul>
+        <li>Screen-time detox plans matched to your rotation calendar</li>
+        <li>Season themes — decide what each off-month is <em>for</em></li>
+        <li>Weekly time audit — where your hours actually went</li>
+      </ul>
+      <a class="btn ghost" href="#newsletter">Get notified at launch</a>
+    </div>
+    <div class="pillar-card" aria-label="Example off-month plan">
+      <h3>What an off-month buys you</h3>
+      <div class="mini-row"><span>Average daily streaming</span><span class="amount">2.1 hrs</span></div>
+      <div class="mini-row"><span>Over a 30-day off-month</span><span class="amount">63 hrs</span></div>
+      <div class="mini-row"><span>That's roughly</span><span class="save">8 books, or 21 evening walks</span></div>
+      <div class="mini-total"><span>Time reclaimed per off-month</span><span>63 hrs</span></div>
     </div>
   </div>
 </section>
 
-<!-- LAYOUT -->
-<div class="layout">
-
-  <!-- LEFT -->
-  <div class="left">
-    <div id="alert-box" class="alert"></div>
-
-    <div class="sh">Your overview</div>
-    <div class="stats">
-      <div class="stat"><div class="stat-l">Active services</div><div class="stat-v ac" id="s-active">0</div></div>
-      <div class="stat"><div class="stat-l">Monthly spend</div><div class="stat-v wc" id="s-spend">$0.00</div></div>
-      <div class="stat"><div class="stat-l">Est. annual savings</div><div class="stat-v gc" id="s-save">$0</div></div>
+<!-- HOMEOWNER CROSS-SELL — routes to MyHomeLoanAdvisor -->
+<div class="crosssell">
+  <div class="crosssell-inner">
+    <div>
+      <h3>Own your home? Your biggest asset deserves an audit too.</h3>
+      <p>The same clarity you bring to subscriptions applies to your mortgage and home equity. See what your equity could be doing for you.</p>
     </div>
-
-    <div class="sh">Video streaming services — 2026 pricing</div>
-    <div class="svc-grid" id="svc-grid"></div>
-
-    <div class="sh">Actions</div>
-    <div class="actions">
-      <button class="btn btn-p" onclick="autoRotate()">&#8635; Auto-rotate</button>
-      <button class="btn btn-g" onclick="exportICS()">&#8595; Export calendar (.ics)</button>
-      <button class="btn btn-g" onclick="sharePlan()">&#128279; Share plan</button>
-      <button class="btn btn-g" onclick="savePlan()">&#128190; Save plan</button>
-      <button class="btn btn-g" onclick="window.print()">&#128424; Print / PDF</button>
-      <button class="btn btn-d" onclick="clearAll()">&#10005; Clear all</button>
-    </div>
-
-    <div class="sh">How rotation works</div>
-    <div class="how-box">
-      <p><strong>💡 The idea:</strong> Instead of paying for every streaming service every month, you rotate through them — Netflix in January, Max in February, Hulu in March — catching up on shows as you go.</p>
-      <p><strong>🔧 Sliders:</strong> Each active service has a slider showing how much of your budget it uses. You can lower this if you're on a cheaper tier or splitting with someone.</p>
-      <p><strong>🎬 Browse shows:</strong> Every service card has a "Browse popular shows" button. Pick the shows you want to watch and we'll add them to the right month automatically.</p>
-      <p><strong>📅 Calendar export:</strong> Hit "Export calendar" to download a .ics file you can import into Google Calendar, Apple Calendar, or Outlook. It includes both subscribe reminders and cancel alerts so you never overpay.</p>
-      <p><strong>🤖 Olu AI:</strong> Use the chat box on the right to ask questions like <em>"When should I subscribe to Max for Euphoria?"</em> or <em>"How do I fit Netflix and Hulu in my budget?"</em></p>
-    </div>
-  </div>
-
-  <!-- RIGHT -->
-  <div class="right">
-    <div class="right-scroll">
-      <div class="sh" style="margin-bottom:.75rem;">12-month rotation schedule</div>
-      <p style="font-size:11px;color:var(--muted);margin-bottom:.875rem;">👆 Click any month to open its watch list and see what's active that month.</p>
-      <div class="months-grid" id="months-grid"></div>
-
-      <div class="sh" style="margin-bottom:.75rem;">Watch list</div>
-      <div class="wl-section" style="padding:0;margin-bottom:1rem;">
-        <div class="wl-hd" id="wl-hd">Select a month above</div>
-        <div class="wl-sub" id="wl-sub">Click a month in the schedule to add or view titles</div>
-        <div id="wl-body" style="margin-top:.75rem;">
-          <p class="wl-placeholder">No month selected. Click any month cell above to start planning your watch list for that month.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- AI -->
-    <div class="ai-strip">
-      <div class="ai-hd"><div class="ai-dot"></div> Olu AI — Scheduling Assistant</div>
-      <div class="ai-row">
-        <input type="text" class="ai-input" id="ai-input" placeholder="Ask: When should I subscribe to Max for Euphoria?">
-        <button class="ai-btn" onclick="sendAI()">Ask</button>
-      </div>
-      <div class="ai-resp" id="ai-resp"></div>
-    </div>
+    <a class="btn gold" href="https://www.myhomeloanadvisor.com" rel="noopener">Check my home equity</a>
   </div>
 </div>
 
-<!-- SHOWS MODAL -->
-<div class="modal-bg" id="modal-bg" onclick="closeMBg(event)">
-  <div class="modal">
-    <div class="modal-hd">
-      <div>
-        <div class="modal-title" id="modal-title">Popular Shows</div>
-        <div class="modal-hint">Select shows → click "Add to Watch List" to schedule them</div>
-      </div>
-      <button class="modal-x" onclick="closeMDirect()">×</button>
+<!-- CLEARPATH PLUS -->
+<section class="plus" id="plus">
+  <div class="plus-inner">
+    <div>
+      <h2>ClearPath Plus</h2>
+      <p>The free tools stay free. Plus is for people who want ClearPath running quietly in the background — plans saved, prices watched, reminders sent — so the path stays clear without you thinking about it.</p>
+      <p class="free-note">Cancel anytime. It would be a little ironic if we made that hard.</p>
     </div>
-    <div class="modal-body">
-      <div class="modal-desc" id="modal-desc"></div>
-      <div class="shows-grid" id="shows-grid"></div>
-    </div>
-    <div class="modal-ft">
-      <div class="modal-ct">Selected: <span id="modal-ct">0</span> shows</div>
-      <button class="btn btn-p" onclick="addToWL()">Add to Watch List →</button>
+    <div class="price-card">
+      <div class="price">$4<small>/month</small></div>
+      <ul>
+        <li>Saved rotation plans for the whole household</li>
+        <li>Renewal and price-hike alerts by email</li>
+        <li>Always-current streaming prices and catalogs</li>
+        <li>Full wellness habit planner at launch</li>
+        <li>Annual "Clear Path Playbook" included</li>
+      </ul>
+      <a class="btn" href="#" data-checkout="stripe-plus-monthly">Join ClearPath Plus</a>
+      <!-- Olu: wire to Stripe payment link; keep data-checkout attribute -->
     </div>
   </div>
-</div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter" id="newsletter">
+  <h2>The Clear Path, once a week</h2>
+  <p>One money tip, one wellness habit, and this month's best streaming value. Two minutes to read, zero clutter — that's the whole point.</p>
+  <form class="nl-form" action="https://formspree.io/f/REPLACE_FORM_ID" method="POST">
+    <input type="email" name="email" placeholder="you@email.com" required aria-label="Email address">
+    <button class="btn" type="submit">Join free</button>
+  </form>
+  <p class="nl-note">No spam, ever. Unsubscribe in one click.</p>
+</section>
 
 <footer>
-  <span>StreamRotator © 2026 · <a href="https://clearpathmanagement.com" target="_blank">ClearPath Management</a></span>
-  <span>Prices current May 2026 · <a href="mailto:bayo@myhomeloanadvisor.com">Contact Bayo</a></span>
+  <div class="foot-inner">
+    <div>
+      <strong style="color:#fff">ClearPath Management</strong><br>
+      A clear path to a simpler life.
+    </div>
+    <div class="foot-links">
+      <a href="/streamrotator/">StreamRotator</a>
+      <a href="#wellness">Wellness</a>
+      <a href="#plus">Plus</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+    </div>
+  </div>
+  <p class="disclosure">Disclosure: some links on this site are affiliate links. If you sign up through them, ClearPath may earn a commission at no extra cost to you. We only recommend tools we'd use on our own path. ClearPath Management is not a financial, medical, or mental-health advisor; our tools are for general informational purposes.</p>
 </footer>
 
-<script>
-const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const FULL=['January','February','March','April','May','June','July','August','September','October','November','December'];
-
-let SERVICES=[
-  {id:'netflix',   name:'Netflix',      price:17.99, color:'#E50914', abbr:'N',   tier:'Standard w/ Ads $7.99 | No Ads $17.99'},
-  {id:'max',       name:'Max (HBO)',     price:18.49, color:'#7936E2', abbr:'Max', tier:'With Ads $9.99 | Ad-Free $18.49'},
-  {id:'disney',    name:'Disney+',       price:18.99, color:'#113CCF', abbr:'D+',  tier:'With Ads $9.99 | Premium $18.99'},
-  {id:'hulu',      name:'Hulu',          price:18.99, color:'#1CE783', abbr:'Hu',  tier:'With Ads $9.99 | No Ads $18.99'},
-  {id:'prime',     name:'Prime Video',   price:8.99,  color:'#00A8E1', abbr:'PV',  tier:'Standalone $8.99 | Prime $14.99'},
-  {id:'paramount', name:'Paramount+',    price:12.99, color:'#0064FF', abbr:'P+',  tier:'With Ads $7.99 | Essential $12.99'},
-  {id:'peacock',   name:'Peacock',       price:10.99, color:'#2d2d2d', abbr:'Pk',  tier:'Premium $10.99 | Premium+ $13.99'},
-  {id:'appletv',   name:'Apple TV+',     price:13.00, color:'#444444', abbr:'TV',  tier:'Ad-Free $13.00 / month'},
-];
-
-const SHOWS={
-  netflix:[
-    {t:'Bridgerton',m:'S4 · Romance',b:'hot'},
-    {t:'Squid Game',m:'S3 · Thriller',b:'top'},
-    {t:'Stranger Things',m:'S5 · Sci-Fi',b:'top'},
-    {t:'Wednesday',m:'S2 · Horror-Comedy',b:'top'},
-    {t:'The Witcher',m:'S4 · Fantasy',b:'new'},
-    {t:'Virgin River',m:'S7 · Drama',b:'hot'},
-    {t:'Outer Banks',m:'S4 · Adventure',b:'hot'},
-    {t:'Beef',m:'S2 · Dark Comedy',b:'new'},
-    {t:'One Piece (Live)',m:'S2 · Action',b:'hot'},
-    {t:'The Night Agent',m:'S3 · Thriller',b:'top'},
-    {t:'Devil May Cry',m:'S2 · Anime',b:'new'},
-    {t:'XO Kitty',m:'S3 · Rom-Com',b:'hot'},
-    {t:'Legends',m:'Limited Series',b:'new'},
-    {t:'Run Away',m:'S1 · Crime Drama',b:'new'},
-  ],
-  max:[
-    {t:'Euphoria',m:'S3 · Drama · HBO',b:'top'},
-    {t:'The White Lotus',m:'S3 · Anthology',b:'top'},
-    {t:'Hacks',m:'S5 · Comedy · HBO',b:'hot'},
-    {t:'The Pitt',m:'S1 · Medical Drama',b:'hot'},
-    {t:'House of the Dragon',m:'S3 · Fantasy',b:'top'},
-    {t:'The Last of Us',m:'S3 · Post-Apoc',b:'hot'},
-    {t:'Rick and Morty',m:'S8 · Animated',b:'top'},
-    {t:'True Detective',m:'S5 · Crime',b:'hot'},
-    {t:'The Dark Wizard',m:'S1 · Fantasy',b:'new'},
-    {t:'Game of Thrones',m:'Catalog · Fantasy',b:'top'},
-    {t:'On the Roam',m:'S2 · Adventure',b:'new'},
-    {t:'Half Man',m:'S1 · Comedy',b:'new'},
-  ],
-  disney:[
-    {t:'Star Wars: Andor',m:'S2 · Sci-Fi',b:'top'},
-    {t:'The Mandalorian',m:'Film · Sci-Fi',b:'hot'},
-    {t:'Loki',m:'S3 · Marvel',b:'top'},
-    {t:'Shogun',m:'S2 · Historical',b:'top'},
-    {t:'The Bear',m:'S4 · Drama',b:'top'},
-    {t:'Only Murders in the Building',m:'S5 · Mystery',b:'hot'},
-    {t:'Star Wars: Maul',m:'S1 · Sci-Fi',b:'new'},
-    {t:'Agatha All Along',m:'S2 · Marvel',b:'new'},
-    {t:'The Punisher',m:'Special · Marvel',b:'new'},
-    {t:'Skeleton Crew',m:'S2 · Star Wars',b:'hot'},
-  ],
-  hulu:[
-    {t:'The Testaments',m:'S1 · Dystopian',b:'new'},
-    {t:"The Handmaid's Tale",m:'S6 · Dystopian',b:'top'},
-    {t:'Abbott Elementary',m:'S5 · Comedy',b:'top'},
-    {t:'The Rookie',m:'S8 · Crime',b:'hot'},
-    {t:"It's Always Sunny",m:'S17 · Comedy',b:'top'},
-    {t:'Malcolm in the Middle',m:'Limited · Comedy',b:'new'},
-    {t:"Grey's Anatomy",m:'S21 · Medical',b:'hot'},
-    {t:'American Horror Story',m:'S13 · Horror',b:'hot'},
-    {t:'Only Murders (FX)',m:'S5 · Mystery',b:'hot'},
-    {t:'Shōgun',m:'S2 · Historical',b:'top'},
-  ],
-  prime:[
-    {t:'The Boys',m:'S5 · Superhero',b:'top'},
-    {t:'Fallout',m:'S2 · Post-Apoc',b:'top'},
-    {t:'The Rings of Power',m:'S3 · Fantasy',b:'hot'},
-    {t:'Invincible',m:'S4 · Animated',b:'top'},
-    {t:'Good Omens',m:'S3 · Comedy-Fantasy',b:'new'},
-    {t:'Reacher',m:'S4 · Action',b:'hot'},
-    {t:'Jack Ryan: Ghost War',m:'Film · Thriller',b:'new'},
-    {t:'Mr. & Mrs. Smith',m:'S2 · Action',b:'new'},
-    {t:'Cross',m:'S2 · Crime',b:'hot'},
-    {t:'Off Campus',m:'S1 · Comedy',b:'new'},
-  ],
-  paramount:[
-    {t:'Dutton Ranch',m:'S1 · Yellowstone sequel',b:'new'},
-    {t:'Yellowstone',m:'Catalog · Western',b:'top'},
-    {t:'1923',m:'S2 · Western Prequel',b:'hot'},
-    {t:'Tulsa King',m:'S3 · Crime-Drama',b:'top'},
-    {t:'South Park',m:'Catalog · Animated',b:'top'},
-    {t:'Tracker',m:'S3 · Procedural',b:'hot'},
-    {t:'NCIS',m:'S23 · Crime',b:'hot'},
-    {t:'Couples Therapy',m:'S5 · Reality',b:'new'},
-    {t:'The Neighborhood',m:'S8 · Sitcom',b:'hot'},
-    {t:'1883',m:'Prequel · Western',b:'top'},
-  ],
-  peacock:[
-    {t:'The Hunting Party',m:'S1 · Thriller',b:'new'},
-    {t:'Ponies',m:'S1 · Comedy',b:'new'},
-    {t:'Yellowstone',m:'Catalog · Western',b:'top'},
-    {t:'The Vampire Diaries',m:'Catalog · Fantasy',b:'top'},
-    {t:'Supernatural',m:'Catalog · Fantasy',b:'top'},
-    {t:'The Miniature Wife',m:'S1 · Sci-Fi Comedy',b:'new'},
-    {t:'All Her Fault',m:'S1 · Thriller',b:'new'},
-    {t:'The Capture',m:'S3 · Spy Thriller',b:'hot'},
-    {t:'M.I.A.',m:'S1 · Drama',b:'new'},
-    {t:'La Brea',m:'Catalog · Sci-Fi',b:'top'},
-  ],
-  appletv:[
-    {t:'Severance',m:'S3 · Sci-Fi Thriller',b:'top'},
-    {t:'The Morning Show',m:'S5 · Drama',b:'hot'},
-    {t:'Slow Horses',m:'S5 · Spy Thriller',b:'top'},
-    {t:'Ted Lasso',m:'S4 · Comedy',b:'top'},
-    {t:'For All Mankind',m:'S5 · Sci-Fi',b:'hot'},
-    {t:'Shrinking',m:'S3 · Comedy',b:'hot'},
-    {t:'Pachinko',m:'S3 · Historical Drama',b:'top'},
-    {t:"Monarch: Legacy of Monsters",m:'S2 · Sci-Fi',b:'new'},
-    {t:"Margo's Got Money Troubles",m:'S1 · Drama',b:'new'},
-    {t:'Bad Monkey',m:'S2 · Comedy Crime',b:'hot'},
-  ],
-};
-
-let state={};
-SERVICES.forEach(s=>{state[s.id]={active:false,alloc:s.price};});
-let wl={};
-MONTHS.forEach(m=>{wl[m]=[];});
-let selMonth=null;
-let budget=30;
-let mSvcId=null;
-let mSel=[];
-
-function getSvc(id){return SERVICES.find(s=>s.id===id);}
-function pad2(n){return n<10?'0'+n:''+n;}
-
-/* RENDER SERVICES */
-function renderSvcs(){
-  const g=document.getElementById('svc-grid');g.innerHTML='';
-  SERVICES.forEach(s=>{
-    const st=state[s.id];
-    const d=document.createElement('div');
-    d.className='svc-card '+(st.active?'on':'off');
-    const mx=Math.max(budget*1.5,s.price*1.5).toFixed(0);
-    d.innerHTML=`
-      <div class="ct">
-        <div class="svc-ico" style="background:${s.color};">${s.abbr}</div>
-        <button class="tog ${st.active?'on':''}" onclick="toggleSvc('${s.id}')" aria-label="Toggle ${s.name}"></button>
-      </div>
-      <div class="svc-nm">${s.name}</div>
-      <div class="svc-mt"><strong>$${s.price.toFixed(2)}</strong>/mo</div>
-      <div class="svc-mt" style="font-size:10px;line-height:1.3;">${s.tier}</div>
-      <div class="alloc ${st.active?'':'dim'}">
-        <input type="range" min="0" max="${mx}" step="0.5" value="${st.alloc.toFixed(1)}" oninput="updAlloc('${s.id}',this.value)">
-        <span class="alloc-v" id="av-${s.id}">$${st.alloc.toFixed(2)}</span>
-      </div>
-      <button class="shows-btn" onclick="openModal('${s.id}')">🎬 Browse popular shows</button>`;
-    if(s.custom){
-      const x=document.createElement('button');x.className='svc-del';x.innerHTML='&times;';
-      x.title='Remove';x.onclick=()=>remCustom(s.id);d.appendChild(x);
-    }
-    g.appendChild(d);
-  });
-  const ac=document.createElement('div');ac.className='add-card';
-  ac.innerHTML=`<div class="add-card-lbl">+ Add a custom service</div>
-    <input type="text" id="cn" placeholder="Service name (e.g. Crunchyroll)">
-    <input type="number" id="cp" placeholder="Price per month ($)" min="0" step="0.01">
-    <button class="ab" onclick="addCustom()">Add Service</button>`;
-  g.appendChild(ac);
-}
-
-function addCustom(){
-  const n=(document.getElementById('cn')||{}).value||'';
-  const p=parseFloat((document.getElementById('cp')||{}).value)||9.99;
-  if(!n.trim())return;
-  const id='c_'+Date.now();
-  const cols=['#1DB954','#FF4500','#FF0050','#6441A5','#F5A623','#00B4D8'];
-  SERVICES.push({id,name:n.trim(),price:p,color:cols[SERVICES.length%cols.length],abbr:n.substring(0,3).toUpperCase(),tier:'Custom service',custom:true});
-  state[id]={active:false,alloc:p};SHOWS[id]=[];
-  renderSvcs();updStats();
-}
-function remCustom(id){
-  SERVICES=SERVICES.filter(s=>s.id!==id);delete state[id];
-  renderSvcs();renderMonths();updStats();
-}
-function toggleSvc(id){
-  state[id].active=!state[id].active;
-  renderSvcs();renderMonths();updStats();
-}
-function updAlloc(id,v){
-  state[id].alloc=parseFloat(v);
-  const el=document.getElementById('av-'+id);
-  if(el)el.textContent='$'+parseFloat(v).toFixed(2);
-  updBudget();updStats();
-}
-
-/* BUDGET */
-function updBudget(){
-  const tot=SERVICES.filter(s=>state[s.id].active).reduce((a,s)=>a+state[s.id].alloc,0);
-  const rem=budget-tot;
-  const b=document.getElementById('budget-badge');
-  const al=document.getElementById('alert-box');
-  if(tot>budget+0.01){
-    b.className='badge over';b.textContent='$'+(tot-budget).toFixed(2)+' over';
-    al.style.display='block';
-    al.textContent='⚠ You\'re $'+(tot-budget).toFixed(2)+' over your $'+budget.toFixed(2)+' budget. Reduce service allocations using the sliders, or increase your budget above.';
-  }else{
-    b.className='badge ok';b.textContent='$'+rem.toFixed(2)+' left';
-    al.style.display='none';
-  }
-}
-
-/* MONTH SERVICES */
-function getMonSvcs(idx){
-  const active=SERVICES.filter(s=>state[s.id].active);
-  if(!active.length)return[];
-  const out=[];let rem=budget;
-  const st=idx%active.length;
-  for(let i=0;i<active.length;i++){
-    const sv=active[(st+i)%active.length];
-    if(rem>=state[sv.id].alloc-0.01){out.push(sv);rem-=state[sv.id].alloc;}
-    else break;
-  }
-  return out;
-}
-
-/* RENDER MONTHS */
-function renderMonths(){
-  const g=document.getElementById('months-grid');g.innerHTML='';
-  MONTHS.forEach((m,i)=>{
-    const c=document.createElement('div');
-    c.className='mc'+(selMonth===m?' sel':'');
-    c.onclick=()=>selM(m);
-    const svcs=getMonSvcs(i);
-    const tags=svcs.map(s=>`<span class="mc-tag" style="background:${s.color};">${s.abbr}</span>`).join('');
-    const spend=svcs.reduce((a,s)=>a+state[s.id].alloc,0);
-    const wlc=wl[m].length;
-    c.innerHTML=`<div class="mc-nm">${m}</div>
-      <div class="mc-tags">${tags||'<span style="font-size:9px;color:var(--subtle);">—</span>'}</div>
-      <div class="mc-cost">${spend>0?'$'+spend.toFixed(0)+'/mo':'No services'}</div>
-      <div class="mc-wl">${wlc?wlc+' title'+(wlc>1?'s':''):''}</div>`;
-    g.appendChild(c);
-  });
-}
-
-/* WATCH LIST */
-function selM(m){
-  selMonth=m;renderMonths();
-  const idx=MONTHS.indexOf(m);
-  const svcs=getMonSvcs(idx);
-  document.getElementById('wl-hd').textContent=FULL[idx];
-  document.getElementById('wl-sub').textContent=svcs.length?'Active this month: '+svcs.map(s=>s.name).join(', '):'No services active this month — toggle a service to add one';
-  renderWL(m);
-}
-
-function renderWL(m){
-  const body=document.getElementById('wl-body');
-  const items=wl[m];let html='';
-  items.forEach((item,i)=>{
-    const sv=item.sId?getSvc(item.sId):null;
-    const dot=`<div class="wl-dot" style="background:${sv?sv.color:'var(--subtle)'};"></div>`;
-    const opts=SERVICES.map(s=>`<option value="${s.id}" ${item.sId===s.id?'selected':''}>${s.name}</option>`).join('');
-    const esc=item.title.replace(/"/g,'&quot;');
-    html+=`<div class="wl-item">${dot}<input type="text" value="${esc}" placeholder="Show or movie title..." oninput="wlT('${m}',${i},this.value)"><select onchange="wlS('${m}',${i},this.value)"><option value="">— on which service?</option>${opts}</select><button class="wl-rm" onclick="wlR('${m}',${i})">×</button></div>`;
-  });
-  if(!items.length)html=`<p class="wl-placeholder">No titles added yet. Use the "Browse popular shows" button on any service card to pick shows, or click "Add title" below to add manually.</p>`;
-  html+=`<button class="wl-add" onclick="wlA('${m}')">＋ Add title manually</button>`;
-  body.innerHTML=html;
-}
-
-function wlA(m){wl[m].push({title:'',sId:''});renderWL(m);renderMonths();}
-function wlR(m,i){wl[m].splice(i,1);renderWL(m);renderMonths();}
-function wlT(m,i,v){wl[m][i].title=v;renderMonths();}
-function wlS(m,i,v){wl[m][i].sId=v;if(selMonth===m)renderWL(m);}
-
-/* STATS */
-function updStats(){
-  const active=SERVICES.filter(s=>state[s.id].active);
-  document.getElementById('s-active').textContent=active.length;
-  const sp=active.reduce((a,s)=>a+state[s.id].alloc,0);
-  document.getElementById('s-spend').textContent='$'+sp.toFixed(2);
-  const aon=SERVICES.filter(s=>!s.custom).reduce((a,s)=>a+s.price,0)*12;
-  const sav=Math.max(0,aon-Math.min(sp,budget)*12);
-  document.getElementById('s-save').textContent='$'+Math.round(sav);
-  updBudget();
-}
-
-/* AUTO ROTATE */
-function autoRotate(){
-  SERVICES.forEach(s=>{state[s.id].active=false;});
-  const sorted=[...SERVICES].sort((a,b)=>b.price-a.price);
-  let rem=budget;
-  sorted.forEach(s=>{if(rem>=s.price-0.01){state[s.id].active=true;state[s.id].alloc=s.price;rem-=s.price;}});
-  renderSvcs();renderMonths();updStats();
-  if(selMonth)renderWL(selMonth);
-}
-
-function clearAll(){
-  SERVICES.forEach(s=>{state[s.id].active=false;});
-  renderSvcs();renderMonths();updStats();
-  if(selMonth)renderWL(selMonth);
-}
-
-/* EXPORT ICS */
-function exportICS(){
-  const yr=new Date().getFullYear();
-  let ics='BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//StreamRotator//ClearPath//EN\r\nCALSCALE:GREGORIAN\r\n';
-  MONTHS.forEach((m,i)=>{
-    const svcs=getMonSvcs(i);if(!svcs.length)return;
-    const ds=`${yr}${pad2(i+1)}01`;
-    const lastDay=new Date(yr,i+1,0).getDate();
-    const de=`${yr}${pad2(i+1)}${pad2(lastDay)}`;
-    const wlStr=wl[m].filter(w=>w.title).map(w=>w.title).join(', ');
-    const spend=svcs.reduce((a,s)=>a+state[s.id].alloc,0);
-    const desc=`Subscribe to: ${svcs.map(s=>s.name+' ($'+state[s.id].alloc.toFixed(2)+')').join(', ')}. Monthly cost: $${spend.toFixed(2)}.${wlStr?'\\nWatch: '+wlStr:''}`;
-    ics+=`BEGIN:VEVENT\r\nUID:sr-${yr}-${i+1}@streamrotator\r\nDTSTART;VALUE=DATE:${ds}\r\nDTEND;VALUE=DATE:${ds}\r\nSUMMARY:▶ Subscribe: ${svcs.map(s=>s.name).join(' + ')}\r\nDESCRIPTION:${desc}\r\nEND:VEVENT\r\n`;
-    ics+=`BEGIN:VEVENT\r\nUID:sr-cancel-${yr}-${i+1}@streamrotator\r\nDTSTART;VALUE=DATE:${de}\r\nDTEND;VALUE=DATE:${de}\r\nSUMMARY:⚠ Cancel: ${svcs.map(s=>s.name).join(', ')}\r\nDESCRIPTION:Cancel ${svcs.map(s=>s.name).join(', ')} today to avoid next month charge.\r\nEND:VEVENT\r\n`;
-  });
-  ics+='END:VCALENDAR';
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));
-  a.download='stream-rotation-'+yr+'.ics';a.click();
-}
-
-/* MODAL */
-function openModal(svcId){
-  mSvcId=svcId;mSel=[];
-  const svc=getSvc(svcId);
-  document.getElementById('modal-title').textContent='Popular shows on '+svc.name;
-  document.getElementById('modal-desc').textContent=
-    'Showing the most-watched and trending titles on '+svc.name+' as of May 2026. '+(selMonth?'Click shows to select them, then hit "Add to Watch List" to add them to '+FULL[MONTHS.indexOf(selMonth)]+'.':'Tip: Select a month in the schedule first, then add shows to it.');
-  const shows=SHOWS[svcId]||[];
-  const g=document.getElementById('shows-grid');g.innerHTML='';
-  if(!shows.length){g.innerHTML='<p style="color:var(--muted);font-size:13px;">No show data available for this service.</p>';}
-  else{
-    shows.forEach((sh,idx)=>{
-      const b=document.createElement('button');
-      b.className='show-btn';b.dataset.idx=idx;
-      const bc=sh.b==='hot'?'badge-hot':sh.b==='new'?'badge-new':'badge-top';
-      const bl=sh.b==='hot'?'🔥 Trending':sh.b==='new'?'✨ New':'⭐ Top Rated';
-      b.innerHTML=`<div class="show-nm">${sh.t}</div><div class="show-mt">${sh.m}</div><span class="show-badge ${bc}">${bl}</span>`;
-      b.onclick=()=>togglePick(b,sh,svcId);
-      g.appendChild(b);
-    });
-  }
-  document.getElementById('modal-ct').textContent=0;
-  document.getElementById('modal-bg').classList.add('open');
-  document.body.style.overflow='hidden';
-}
-
-function togglePick(btn,sh,svcId){
-  const idx=mSel.findIndex(x=>x.title===sh.t);
-  if(idx>=0){mSel.splice(idx,1);btn.classList.remove('picked');}
-  else{mSel.push({title:sh.t,sId:svcId});btn.classList.add('picked');}
-  document.getElementById('modal-ct').textContent=mSel.length;
-}
-
-function addToWL(){
-  if(!selMonth){
-    alert('Please click a month in the 12-month schedule first, then browse and add shows.');
-    closeMDirect();return;
-  }
-  mSel.forEach(item=>wl[selMonth].push({title:item.title,sId:item.sId}));
-  closeMDirect();renderWL(selMonth);renderMonths();
-}
-
-function closeMBg(e){if(e.target===document.getElementById('modal-bg'))closeMDirect();}
-function closeMDirect(){
-  document.getElementById('modal-bg').classList.remove('open');
-  document.body.style.overflow='';mSel=[];mSvcId=null;
-}
-
-/* AI */
-async function sendAI(){
-  const inp=document.getElementById('ai-input');
-  const resp=document.getElementById('ai-resp');
-  const q=inp.value.trim();if(!q)return;
-  resp.textContent='Thinking...';inp.value='';
-  const active=SERVICES.filter(s=>state[s.id].active);
-  const spend=active.reduce((a,s)=>a+state[s.id].alloc,0);
-  const allWl=[];
-  MONTHS.forEach(m=>{wl[m].forEach(w=>{if(w.title)allWl.push(w.title+' ('+m+(w.sId?' on '+getSvc(w.sId)?.name:'')+')');});});
-  const ctx=`User budget: $${budget}/mo. Active services: ${active.map(s=>s.name+'($'+state[s.id].alloc.toFixed(2)+')').join(', ')||'none'}. Monthly spend: $${spend.toFixed(2)}. Watch list: ${allWl.join('; ')||'empty'}.`;
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',max_tokens:1000,
-        system:`You are Olu AI, a friendly streaming subscription scheduling assistant on StreamRotator at clearpathmanagement.com. Help users optimize their rotation, decide when to subscribe/cancel, and plan watch lists. Be concise (2-4 sentences max), practical, and warm. ${ctx}`,
-        messages:[{role:'user',content:q}]
-      })
-    });
-    const data=await res.json();
-    resp.textContent=data.content?.filter(c=>c.type==='text').map(c=>c.text).join('')||'Sorry, no response received.';
-  }catch(e){resp.textContent='Could not connect to Olu AI. Please try again.';}
-}
-document.getElementById('ai-input').addEventListener('keydown',e=>{if(e.key==='Enter')sendAI();});
-document.getElementById('budget-input').addEventListener('input',function(){
-  budget=Math.max(5,parseFloat(this.value)||5);
-  renderSvcs();renderMonths();updStats();
-  if(selMonth)renderWL(selMonth);
-});
-
-renderSvcs();renderMonths();updStats();
-
-function showToast(msg){
-  var t=document.getElementById('share-toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(function(){t.classList.remove('show');},3200);
-}
-function getPlanData(){
-  var active=SERVICES.filter(function(s){return state[s.id].active&&!s.custom;});
-  var customSvcs=SERVICES.filter(function(s){return s.custom;});
-  var wlObj={};
-  MONTHS.forEach(function(m){wlObj[m]=wl[m].filter(function(w){return w.title;});});
-  return{budget:budget,active:active.map(function(s){return{id:s.id,alloc:state[s.id].alloc};}),custom:customSvcs.map(function(s){return{id:s.id,name:s.name,price:s.price,color:s.color,abbr:s.abbr,alloc:state[s.id].alloc,active:state[s.id].active};}),wl:wlObj};
-}
-function sharePlan(){
-  try{
-    var data=getPlanData();
-    var encoded=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
-    var url=window.location.origin+window.location.pathname+'?plan='+encoded;
-    if(navigator.clipboard&&navigator.clipboard.writeText){
-      navigator.clipboard.writeText(url).then(function(){showToast('Link copied to clipboard!');}).catch(function(){prompt('Copy this shareable link:',url);});
-    }else{prompt('Copy this shareable link:',url);}
-  }catch(e){alert('Could not generate share link.');}
-}
-function savePlan(){
-  try{
-    localStorage.setItem('streamrotator_plan',JSON.stringify(getPlanData()));
-    showToast('Plan saved to this browser!');
-  }catch(e){alert('Could not save — storage unavailable.');}
-}
-function loadPlan(data){
-  try{
-    if(data.budget){budget=data.budget;document.getElementById('budget-input').value=budget;}
-    if(data.active){data.active.forEach(function(a){if(state[a.id]){state[a.id].active=true;state[a.id].alloc=a.alloc;}});}
-    if(data.custom){data.custom.forEach(function(c){if(!SERVICES.find(function(s){return s.id===c.id;})){SERVICES.push({id:c.id,name:c.name,price:c.price,color:c.color,abbr:c.abbr,tier:'Custom',custom:true});state[c.id]={active:c.active||false,alloc:c.alloc};SHOWS[c.id]=[];}});}
-    if(data.wl){MONTHS.forEach(function(m){if(data.wl[m])wl[m]=data.wl[m];});}
-  }catch(e){console.warn('Could not restore plan:',e);}
-}
-function tryLoadSavedPlan(){
-  try{
-    var params=new URLSearchParams(window.location.search);
-    var p=params.get('plan');
-    if(p){
-      try{loadPlan(JSON.parse(decodeURIComponent(escape(atob(p)))));showToast('Shared plan loaded!');window.history.replaceState({},'',window.location.pathname);return;}
-      catch(e){console.warn('Could not parse shared plan');}
-    }
-    var saved=localStorage.getItem('streamrotator_plan');
-    if(saved){loadPlan(JSON.parse(saved));showToast('Your saved plan was restored!');}
-  }catch(e){}
-}
-
-tryLoadSavedPlan();
-</script>
 </body>
-</html>/* deploy: 1779950280 */
-
-<!-- deploy:1779950467 -->
+</html>
