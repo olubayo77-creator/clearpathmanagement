@@ -1,4 +1,3 @@
-import { getStore } from "@netlify/blobs";
 import { PRODUCT_SLUG, json, stripeClient } from "./_shared.mjs";
 
 export async function handler(event) {
@@ -19,18 +18,21 @@ export async function handler(event) {
 
   if (stripeEvent.type === "checkout.session.completed") {
     const session = stripeEvent.data.object;
-    if (session.payment_status === "paid" && session.metadata?.product_slug === PRODUCT_SLUG) {
-      const orders = getStore("gentleman-strategist-orders");
-      await orders.setJSON(session.id, {
-        sessionId: session.id,
-        productSlug: PRODUCT_SLUG,
-        paymentStatus: "paid",
-        fulfilledAt: new Date().toISOString()
-      }, { onlyIfNew: true });
+    if (
+      session.payment_status === "paid" &&
+      session.metadata?.product_slug === PRODUCT_SLUG &&
+      typeof session.payment_intent === "string"
+    ) {
+      await stripeClient().paymentIntents.update(session.payment_intent, {
+        metadata: {
+          product_slug: PRODUCT_SLUG,
+          fulfilled: "true",
+          checkout_session_id: session.id
+        }
+      });
       console.log("playbook_fulfillment_recorded", session.id);
     }
   }
 
   return json(200, { received: true });
 }
-
