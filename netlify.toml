@@ -17,3 +17,18 @@
   for = "/*.js"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["netlify/functions/assets/**"]
+
+[[redirects]]
+  from = "/api/checkout"
+  to = "/.netlify/functions/create-checkout-session"
+  status = 200
+
+[[redirects]]
+  from = "/api/stripe-webhook"
+  to = "/.netlify/functions/stripe-webhook"
+  status = 200
+
