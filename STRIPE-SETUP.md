@@ -2,6 +2,8 @@
 
 This branch keeps the public sales button disabled while the sandbox checkout is tested.
 
+The Netlify branch deploy is isolated to `feat/stripe-playbook-checkout` during verification.
+
 ## Required Netlify environment variables
 
 - `STRIPE_SECRET_KEY` - Stripe sandbox secret key
