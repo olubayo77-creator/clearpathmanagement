@@ -25,4 +25,6 @@ Never commit secret values to GitHub.
 7. Confirm the success page reveals the secure PDF download.
 8. Verify the downloaded PDF matches the approved paid edition.
 
+Connection check: Netlify GitHub access was refreshed before preview testing.
+
 Do not merge or enable the public checkout button until every step passes.
