@@ -265,27 +265,27 @@
   <div class="pillar" id="wellness">
     <div class="pillar-copy">
       <div class="waymark">2</div>
-      <h2>ClearPath <span>Wellness</span> <span class="pill-tag soon">Coming soon</span></h2>
-      <p>The same rotation logic, applied to your health. Instead of an ambitious plan you abandon in February, you rotate one focused habit per month — and your off-months from streaming become your on-months for you.</p>
+      <h2>ClearPath <span>Wellness</span> <span class="pill-tag live">Live now</span></h2>
+      <p>Train your decisions, movement, and follow-through with The Gentleman Strategist: a practical beginner program combining chess, non-contact boxing fundamentals, and one daily discipline promise.</p>
       <ul>
-        <li>Habit rotation planner — one 30-day focus at a time</li>
-        <li>Wellness spend audit — the gym you pay for but don't use</li>
-        <li>Sleep and screen-time budgets that mirror your money budget</li>
+        <li>Free 5-Day Discipline Challenge with printable scorecard</li>
+        <li>30-Day Gentleman Strategist Playbook — planned launch price $29</li>
+        <li>Legality-checked chess exercises and answer guidance</li>
+        <li>Solo boxing lessons held to qualified-review and safety gates</li>
       </ul>
-      <a class="btn ghost" href="#newsletter">Get notified at launch</a>
-      <!-- AFFILIATE SLOT: fitness apps, meal kits, sleep tech — Olu: insert tracked links -->
-    </div>
-    <div class="pillar-card" aria-label="Example habit rotation calendar">
-      <h3>A year of one-thing-at-a-time</h3>
-      <div>
-        <span class="month-chip active">Jul · Walking 8k</span>
-        <span class="month-chip">Aug · Sleep by 10:30</span>
-        <span class="month-chip">Sep · Home cooking</span>
-        <span class="month-chip">Oct · Strength ×3/wk</span>
-        <span class="month-chip">Nov · No-phone mornings</span>
-        <span class="month-chip">Dec · Stretch daily</span>
+      <div class="hero-ctas">
+        <a class="btn" href="/gentleman-strategist/?utm_source=clearpath&utm_medium=wellness&utm_campaign=gs_free_challenge">Start the free challenge</a>
+        <a class="btn ghost" href="/gentleman-strategist/#playbook?utm_source=clearpath&utm_medium=wellness&utm_campaign=gs_playbook_waitlist">See the 30-day system</a>
       </div>
-      <div class="mini-total" style="margin-top:18px"><span>Habits attempted at once</span><span>1, not 6</span></div>
+    </div>
+    <div class="pillar-card" aria-label="The Gentleman Strategist five-day challenge">
+      <h3>Your first five moves</h3>
+      <div class="mini-row"><span>Day 1</span><span class="amount">Stance</span></div>
+      <div class="mini-row"><span>Day 2</span><span class="amount">Distance</span></div>
+      <div class="mini-row"><span>Day 3</span><span class="amount">The jab</span></div>
+      <div class="mini-row"><span>Day 4</span><span class="amount">Defense</span></div>
+      <div class="mini-row"><span>Day 5</span><span class="amount">Composure</span></div>
+      <div class="mini-total"><span>Cost to begin</span><span>Free</span></div>
     </div>
   </div>
 
@@ -332,7 +332,7 @@
       <p class="free-note">Cancel anytime. It would be a little ironic if we made that hard.</p>
     </div>
     <div class="price-card">
-      <div class="price">$4<small>/month</small></div>
+      <div class="price"><small>PLANNED</small> $4<small>/month</small></div>
       <ul>
         <li>Saved rotation plans for the whole household</li>
         <li>Renewal and price-hike alerts by email</li>
@@ -340,8 +340,8 @@
         <li>Full wellness habit planner at launch</li>
         <li>Annual "Clear Path Playbook" included</li>
       </ul>
-      <a class="btn" href="#" data-checkout="stripe-plus-monthly">Join ClearPath Plus</a>
-      <!-- Olu: wire to Stripe payment link; keep data-checkout attribute -->
+      <a class="btn" href="#newsletter" data-track="plus_waitlist">Join the Plus waitlist</a>
+      <p class="free-note">Billing is not active. Join the list for launch updates.</p>
     </div>
   </div>
 </section>
@@ -350,7 +350,8 @@
 <section class="newsletter" id="newsletter">
   <h2>The Clear Path, once a week</h2>
   <p>One money tip, one wellness habit, and this month's best streaming value. Two minutes to read, zero clutter — that's the whole point.</p>
-  <form class="nl-form" action="https://formspree.io/f/REPLACE_FORM_ID" method="POST">
+  <form class="nl-form" name="clearpath-newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+    <input type="hidden" name="form-name" value="clearpath-newsletter"><input type="hidden" name="source" value="homepage"><p hidden><label>Do not fill this out: <input name="bot-field"></label></p>
     <input type="email" name="email" placeholder="you@email.com" required aria-label="Email address">
     <button class="btn" type="submit">Join free</button>
   </form>
@@ -375,5 +376,6 @@
   <p class="disclosure">Disclosure: some links on this site are affiliate links. If you sign up through them, ClearPath may earn a commission at no extra cost to you. We only recommend tools we'd use on our own path. ClearPath Management is not a financial, medical, or mental-health advisor; our tools are for general informational purposes. TradeDeck is a paper-trading simulator for education only — no real money is traded and nothing on it is investment advice.</p>
 </footer>
 
+<script>window.dataLayer=window.dataLayer||[];document.querySelectorAll("[data-track]").forEach(function(el){el.addEventListener("click",function(){window.dataLayer.push({event:el.dataset.track,path:location.pathname})})});document.querySelectorAll("form[data-netlify]").forEach(function(form){form.addEventListener("submit",function(){window.dataLayer.push({event:"lead_submit_attempt",form_name:form.getAttribute("name")})})});</script>
 </body>
 </html>
