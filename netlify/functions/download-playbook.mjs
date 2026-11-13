@@ -1,10 +1,9 @@
 import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { PRODUCT_SLUG, stripeClient } from "./_shared.mjs";
 
-const encryptedAsset = path.join(path.dirname(fileURLToPath(import.meta.url)), "assets", "gentleman-strategist-30-day-playbook.pdf.enc");
+const encryptedAsset = path.join(process.cwd(), "netlify", "functions", "assets", "gentleman-strategist-30-day-playbook.pdf.enc");
 
 export async function handler(event) {
   if (event.httpMethod !== "GET") return { statusCode: 405, body: "Method not allowed" };
