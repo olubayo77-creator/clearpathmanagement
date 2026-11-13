@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { getStore } from "@netlify/blobs";
+import { PRODUCT_SLUG, stripeClient } from "./_shared.mjs";
 
 const encryptedAsset = path.join(path.dirname(fileURLToPath(import.meta.url)), "assets", "gentleman-strategist-30-day-playbook.pdf.enc");
 
@@ -10,12 +10,21 @@ export async function handler(event) {
   if (event.httpMethod !== "GET") return { statusCode: 405, body: "Method not allowed" };
   const sessionId = event.queryStringParameters?.session_id;
   if (!sessionId || !/^cs_(test_)?[A-Za-z0-9_]+$/.test(sessionId)) return { statusCode: 400, body: "Invalid order" };
-
-  const order = await getStore("gentleman-strategist-orders").get(sessionId, { type: "json" });
-  if (order?.paymentStatus !== "paid") return { statusCode: 403, body: "This purchase has not been fulfilled" };
   if (!process.env.PLAYBOOK_ENCRYPTION_KEY) return { statusCode: 503, body: "Delivery is not configured" };
 
   try {
+    const session = await stripeClient().checkout.sessions.retrieve(sessionId, {
+      expand: ["payment_intent"]
+    });
+    const paymentIntent = session.payment_intent;
+    const fulfilled =
+      session.payment_status === "paid" &&
+      session.metadata?.product_slug === PRODUCT_SLUG &&
+      typeof paymentIntent === "object" &&
+      paymentIntent?.metadata?.fulfilled === "true" &&
+      paymentIntent?.metadata?.checkout_session_id === session.id;
+    if (!fulfilled) return { statusCode: 403, body: "This purchase has not been fulfilled" };
+
     const packed = await fs.readFile(encryptedAsset);
     const iv = packed.subarray(0, 12);
     const tag = packed.subarray(12, 28);
@@ -40,4 +49,3 @@ export async function handler(event) {
     return { statusCode: 500, body: "Unable to prepare the download" };
   }
 }
-
