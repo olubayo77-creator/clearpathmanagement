@@ -6,8 +6,6 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@netlify/blobs": "^9.1.2",
     "stripe": "^19.3.0"
   }
 }
-
