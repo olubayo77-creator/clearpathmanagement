@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Explore a 60-second cinematic film made entirely in code, and inquire about custom trailers and adaptable visual templates from ClearPath Management.">
+  <title>Cinematic Code Studio | ClearPath Management</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="topbar wrap"><a href="/">CLEARPATH MANAGEMENT</a><span>CINEMATIC CODE STUDIO</span><a class="back" href="/gentleman-strategist/">THE GENTLEMAN STRATEGIST</a></nav>
+  <main>
+    <header class="hero wrap">
+      <p class="eyebrow">Interactive portfolio demo</p>
+      <h1>Storytelling, built <em>entirely in code.</em></h1>
+      <p class="lede">Two Dragons is a 60-second real-time WebGL film with procedural meshes, textures, lighting, particles, and camera direction—no imported character models or image assets.</p>
+      <div class="proof"><span>60-second interactive film</span><span>Eight directed shots</span><span>Desktop + mobile layouts</span><span>Silent by design</span></div>
+    </header>
+    <section class="stage" aria-labelledby="demo-title">
+      <div class="wrap">
+        <p class="eyebrow" id="demo-title">Live demo</p>
+        <div class="screen"><iframe src="two-dragons/" title="Two Dragons interactive cinematic film" loading="eager" allow="fullscreen" referrerpolicy="same-origin"></iframe></div>
+        <div class="screen-note"><span>Tap “Play film” for the full sequence. Tap the film again to reveal controls.</span><span>Sound is not included. Reduced-motion and non-WebGL visitors receive a lightweight fallback.</span></div>
+      </div>
+    </section>
+    <section class="section wrap">
+      <p class="eyebrow">What this demonstrates</p>
+      <div class="grid">
+        <article class="card"><span class="num">01 · CUSTOM TRAILERS</span><h3>A cinematic proof of concept</h3><p>Short, stylized trailers for launches, games, campaigns, and original worlds. Scope and pricing depend on complexity, runtime, revisions, and supplied brand assets.</p></article>
+        <article class="card"><span class="num">02 · ADAPTABLE TEMPLATES</span><h3>A reusable visual system</h3><p>Selected scenes can be adapted with agreed colors, titles, creatures, pacing, and calls to action. Every engagement is reviewed for technical fit and rights clearance.</p></article>
+      </div>
+    </section>
+    <section class="section concept">
+      <div class="wrap concept-grid">
+        <div><p class="eyebrow">Separate lead-generation concept</p><h2>From empty lot to finished home.</h2><p>The same real-time storytelling approach could support BuyLandAndBuild: begin on an undeveloped lot, reveal a foundation and framing sequence, then arrive at a finished home at sunset with a buyer call to action.</p><p><strong>This is a proposed concept, not a completed real-estate film.</strong> Production would require an approved property, design direction, and accurate project details.</p></div>
+        <div class="storyboard" aria-label="Proposed three-shot BuyLandAndBuild storyboard"><div class="frame"><span class="label">CONCEPT FRAME</span><b>01 · The lot</b><small>Land, location, possibility</small></div><div class="frame"><span class="label">CONCEPT FRAME</span><b>02 · The build</b><small>Foundation to structure</small></div><div class="frame"><span class="label">CONCEPT FRAME</span><b>03 · The home</b><small>Finished at sunset</small></div></div>
+      </div>
+    </section>
+    <section class="section wrap inquiry" id="inquire">
+      <div><p class="eyebrow">Start a conversation</p><h2>Have a launch worth making cinematic?</h2><p>Tell us what you are promoting and where the film needs to run. We will reply with fit, a realistic scope, and next steps—without studio-quality or earnings promises.</p><ul><li>Custom code-based trailer inquiry</li><li>Template adaptation inquiry</li><li>BuyLandAndBuild concept inquiry</li></ul><p class="fine">Only send characters, logos, music, or other creative assets you own or are authorized to use.</p></div>
+      <form class="form" id="cinematic-inquiry" name="cinematic-code-inquiries" method="POST" action="/cinematic-code/thank-you.html" data-netlify="true" netlify-honeypot="company">
+        <input type="hidden" name="form-name" value="cinematic-code-inquiries"><input type="hidden" name="source" value="cinematic-code-demo"><input type="hidden" name="utm_source" id="utm_source"><input type="hidden" name="utm_medium" id="utm_medium"><input type="hidden" name="utm_campaign" id="utm_campaign"><p hidden><label>Leave empty: <input name="company"></label></p>
+        <label for="name">Name</label><input id="name" name="name" autocomplete="name" required>
+        <label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required>
+        <label for="interest">What are you interested in?</label><select id="interest" name="interest" required><option value="">Choose one</option><option>Custom cinematic trailer</option><option>Adaptable template</option><option>BuyLandAndBuild concept</option><option>Something else</option></select>
+        <label for="project">Tell us about the project</label><textarea id="project" name="project" placeholder="Audience, platform, desired runtime, launch date, and creative idea" required></textarea>
+        <label class="consent"><input type="checkbox" name="consent" value="yes" required><span>You may contact me about this inquiry and related ClearPath services. I can opt out anytime.</span></label>
+        <button class="button" type="submit">Request a project conversation</button><p class="status" id="form-status" role="status"></p><p class="fine">Submitting an inquiry does not guarantee availability, results, or a particular production value.</p>
+      </form>
+    </section>
+  </main>
+  <footer><div class="wrap"><span>© 2026 ClearPath Management</span><span>Real-time demo; results vary by device and project scope.</span></div></footer>
+  <script src="app.js"></script>
+</body>
+</html>
+
