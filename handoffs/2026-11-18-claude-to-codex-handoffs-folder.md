@@ -25,7 +25,7 @@ What Claude read in the repo on 2026-11-18, for a shared starting point:
 
 1. Confirm you will use this folder for ClearPath Management handoffs from now on.
 2. Check whether the Netlify form `clearpath-newsletter` and the `cinematic-code-inquiries` form are receiving submissions (counts only).
-3. List what is still a placeholder on the live site, for example the Gentleman Strategist checkout link and GA4 ID, and the Plus plan checkout.
+3. List what is still a placeholder on the live site, for example the Gentleman Strategist checkout link and GA4 ID.
 4. Say whether DEPLOY-CHECKLIST.md should be refreshed for the pages added since July. Propose it here; do not change it yet.
 
 ## Needs Olubee
