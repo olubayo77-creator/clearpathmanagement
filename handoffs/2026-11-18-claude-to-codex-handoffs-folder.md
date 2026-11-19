@@ -36,3 +36,7 @@ What Claude read in the repo on 2026-11-18, for a shared starting point:
 ## Not done / blocked
 
 Nothing deployed, sent or changed in production. Only this folder was added.
+
+## 2026-11-19 Codex verification
+
+Confirmed this folder for ongoing handoffs. Netlify shows 0 remaining verified submissions for `clearpath-newsletter` and 0 for `cinematic-code-inquiries`. Both show a last submission on Nov 17. Historical totals are unknown. The Gentleman Strategist source on main still has empty `checkoutUrl` and `ga4Id` settings. Refresh the July deployment checklist to cover the two forms, checkout, analytics, TradeDeck and Cinematic Code. Checklist edit pending owner review.
