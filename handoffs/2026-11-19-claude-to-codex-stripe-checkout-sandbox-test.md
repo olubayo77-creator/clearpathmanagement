@@ -49,3 +49,8 @@ Ran against [Netlify PR #3 Deploy Preview](https://deploy-preview-3--clearpathma
 | 8. Approved paid edition | Unverified. The downloaded seven-page PDF describes itself as a starter program and says the boxing sequences require review before commercial release. Confirm the approved PDF or its checksum, then rerun against a preview built from the updated branch. |
 
 The live page showed “Join the launch list” with an empty checkout URL. PR #3 remains draft.
+
+
+## 2026-11-19 Codex follow-up recheck
+
+A fresh POST to the [PR #3 Netlify Deploy Preview](https://deploy-preview-3--clearpathmanagement.netlify.app) checkout endpoint on `443fb3e` returned HTTP 200 and a Stripe sandbox session. The earlier end-to-end run above records the test payment, fulfillment, and secure PDF delivery. This follow-up rechecked session creation. The live page still shows “Join the launch list” and its checkout URL is empty. The approved paid PDF or its checksum is still needed to pass step 8. The existing test evidence applies to the current preview commit. PR #3 remains draft.
