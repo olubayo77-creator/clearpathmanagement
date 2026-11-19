@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Your Gentleman Strategist Playbook</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <main class="section wrap narrow" style="min-height:70vh;padding-top:10vh">
+    <p class="eyebrow">ORDER COMPLETE</p>
+    <h1>Your playbook is being prepared.</h1>
+    <p id="message">Stripe has confirmed your checkout. Secure delivery normally takes only a few seconds.</p>
+    <a id="download" class="button primary" hidden>Download the 30-day playbook</a>
+    <p class="micro">Keep this page open until the download button appears. Your payment receipt is sent separately by Stripe.</p>
+  </main>
+  <script>
+    const sessionId=new URLSearchParams(location.search).get("session_id");
+    const message=document.getElementById("message"),download=document.getElementById("download");
+    let attempts=0;
+    async function check(){
+      if(!sessionId){message.textContent="This order link is incomplete.";return;}
+      try{
+        const res=await fetch(`/.netlify/functions/order-status?session_id=${encodeURIComponent(sessionId)}`,{cache:"no-store"});
+        const data=await res.json();
+        if(data.fulfilled){
+          message.textContent="Payment confirmed. Your secure download is ready.";
+          download.href=`/.netlify/functions/download-playbook?session_id=${encodeURIComponent(sessionId)}`;
+          download.hidden=false;
+          window.dataLayer=window.dataLayer||[];
+          window.dataLayer.push({event:"purchase_fulfilled",transaction_id:sessionId});
+          return;
+        }
+      }catch(error){}
+      attempts+=1;
+      if(attempts<15)setTimeout(check,2000);else message.textContent="Payment was received, but delivery is taking longer than expected. Please refresh this page in a minute.";
+    }
+    check();
+  </script>
+</body>
+</html>
+
