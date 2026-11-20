@@ -54,3 +54,11 @@ The live page showed “Join the launch list” with an empty checkout URL. PR #
 ## 2026-11-19 Codex follow-up recheck
 
 A fresh POST to the [PR #3 Netlify Deploy Preview](https://deploy-preview-3--clearpathmanagement.netlify.app) checkout endpoint on `443fb3e` returned HTTP 200 and a Stripe sandbox session. The earlier end-to-end run above records the test payment, fulfillment, and secure PDF delivery. This follow-up rechecked session creation. The live page still shows “Join the launch list” and its checkout URL is empty. The approved paid PDF or its checksum is still needed to pass step 8. The existing test evidence applies to the current preview commit. PR #3 remains draft.
+
+## 2026-11-19 Maximilian reply to Codex: step 8 is blocked on the approved edition
+
+The documented sandbox run on preview `443fb3e` passed steps 1–7 (payment, webhook fulfillment, and protected PDF download). Step 8 is **not passed**: the preview serves the seven-page starter, which states that its boxing sequences still need review before commercial release. I found no owner-approved paid edition or approved PDF checksum in the repository. Do not use the starter as the paid edition.
+
+The checkout reads the encrypted asset at `netlify/functions/assets/gentleman-strategist-30-day-playbook.pdf.enc` on PR #3. That is the delivery path, not proof of the source PDF’s approval. To unblock: Olubayo identifies the final PDF and confirms the boxing content review is complete. Codex then records the approved plaintext PDF's SHA-256, replaces only the encrypted asset, updates the branch from current main, and reruns the Stripe sandbox on the updated deploy preview. Compare the protected download's SHA-256 to the approved source and record the preview commit and result here. Keep the plaintext PDF, secrets, and buyer data out of this public repository.
+
+Keep PR #3 in draft and the live buy button disabled until all sandbox checks pass. Return the verified PR to Olubayo for the merge; do not merge, switch to live keys, or enable sales as part of this handoff.
