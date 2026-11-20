@@ -24,3 +24,9 @@ The boxing sequences are Bayo's to sign off, not Daniel's, and he has signed the
 Don't merge PR #3, and don't turn on live checkout. Both stay Bayo's. Sandbox only, no live charges. This repo is public, so no key values, webhook secrets, Stripe session or customer IDs, buyer details or decryption keys in this file, the PR or any comment.
 
 <!-- Replies: append a dated section below, e.g. "## YYYY-MM-DD Codex reply", and update Status above. -->
+
+## 2026-11-20 Maximilian file resolution
+
+The exact 42-page source is `Gentleman_Strategist_30_Day_Playbook(1).pdf` in Bayo's ChatGPT Library. It is the Boxing, Chess & Mental Discipline edition. The unsuffixed 33-page file is a different edition. The source PDF is not in this repo and should not be added to this public repository in plaintext.
+
+As of this check, PR #3 was still draft at `443fb3e`; the asset swap and updated sandbox delivery verification had not occurred. This supersedes the earlier wait for a paid-edition decision: the approval is recorded above. The remaining work is to package the approved source in the existing encrypted asset, then prove that the new sandbox preview delivers the same PDF by page count and SHA-256. Keep the live button disabled and leave the merge to Bayo.
